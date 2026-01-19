@@ -1,0 +1,8 @@
+npm install sonner
+npm install -D vite-plugin-pwa
+npx shadcn@latest init
+npx shadcn@latest add
+npm install zustand
+npm install @supabase/supabase-js
+npm install react-router-dom
+
