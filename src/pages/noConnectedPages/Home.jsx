@@ -1,11 +1,20 @@
-import { ModeToggle } from "@/components/provider/ModeToggle";
-import React from "react";
+
+import Title from "@/components/custom/Title";
+import React from "react";import { FiActivity } from "react-icons/fi";
+
 
 export default function Home() {
   return (
     <>
-      <div className="bg-primary-foreground text-destructive">Home</div>
-      <ModeToggle />
+      <div className="w-full px-1 md:px-4">
+        <Title title="A.R.C." subtitle="Analyse et Relation de Coaching" iconTitle={<FiActivity />} />
+
+        <h3 className="text-xl underline underline-offset-4 mb-2">Objectif : </h3>
+        <p>Mettre en relation les coachs et leurs athlètes</p>
+        <p>Programmer les séances d'entrainemnt facilement</p>
+        <p>Assurer un suivi de l'athlète</p>
+
+      </div>
     </>
   );
 }

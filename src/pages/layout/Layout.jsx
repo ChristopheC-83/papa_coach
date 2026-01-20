@@ -13,9 +13,9 @@ export default function Layout() {
   if (!isHydrated) return <Loader />;
 
   return (
-    <div className="min-h-svh ">
+    <div className="h-dvh  w-dvw">
       <Toaster position="top-center" richColors expand={true} />
-      <main className="w-dvw h-dvh flex  max-md:flex-col  overflow-hidden">
+      <main className="w-dvw h-dvh flex max-md:flex-col overflow-hidden bg-background text-foreground">
         <Navbar />
         <Outlet />
       </main>

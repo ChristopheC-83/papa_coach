@@ -1,1 +1,6 @@
-/*# sourceMappingURL=custom.css.map */
+.text-clip {
+  background: linear-gradient(90deg, var(--text-clip-1) 0%, var(--text-clip-2) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}/*# sourceMappingURL=custom.css.map */
