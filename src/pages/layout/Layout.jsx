@@ -5,6 +5,8 @@ import { Toaster } from "sonner";
 import { useUserStore } from "@/store/user/useUserStore";
 import Loader from "@/components/custom/Loader";
 import Navbar from "@/components/navbar/Navbar";
+import Title from "@/components/custom/Title";
+import { FiActivity } from "react-icons/fi";
 
 export default function Layout() {
   const user = useUserStore((state) => state.user);
@@ -15,9 +17,16 @@ export default function Layout() {
   return (
     <div className="h-dvh  w-dvw">
       <Toaster position="top-center" richColors expand={true} />
-      <main className="w-dvw h-dvh flex max-md:flex-col overflow-hidden bg-background text-foreground">
+      <main className="w-dvw h-dvh flex max-md:flex-col overflow-hidden bg-background text-foreground ">
         <Navbar />
-        <Outlet />
+        <div className="flex flex-col w-full">
+          <Title
+                  title="A.R.C."
+                  subtitle="Analyse et Relation de Coaching"
+                  iconTitle={<FiActivity />}
+                />
+          <Outlet />
+        </div>
       </main>
     </div>
   );

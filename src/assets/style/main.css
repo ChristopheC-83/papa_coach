@@ -106,3 +106,23 @@
     --chart-5: oklch(0.797 0.08 187.568);
   }
 }
+@utility underline-clip {
+  position: relative;
+  /* 1. Le texte en dégradé */
+  background: linear-gradient(90deg, var(--text-clip-1) 0%, var(--text-clip-2) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  /* 2. La bordure en dégradé via un pseudo-élément */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px; /* Espace entre le texte et la barre */
+    width: 100%;
+    height: 2px; /* Épaisseur de la barre */
+    border-radius: 99px; /* Bords arrondis pour le style */
+    background: linear-gradient(90deg, var(--text-clip-1) 0%, var(--text-clip-2) 100%);
+  }
+}

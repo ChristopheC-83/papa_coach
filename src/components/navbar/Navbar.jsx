@@ -1,23 +1,30 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import NavbarMobile from './NavbarMobile';
-import NavbarDesktop from './NavbarDesktop';
-import { useUserStore } from '@/store/user/useUserStore';
+import React from "react";
+import NavbarMobile from "./NavbarMobile";
+import NavbarDesktop from "./NavbarDesktop";
+import { useUserStore } from "@/store/user/useUserStore";
 import { FiHome } from "react-icons/fi";
 import { FiLogIn } from "react-icons/fi";
 import { FiActivity } from "react-icons/fi";
 
-
-
 export default function Navbar() {
-
   const user = useUserStore((state) => state.user);
 
   const navLinks = [
-    { icon: <FiHome />, label: "Accueil", path: "/", auth: "all" },
+    {
+      icon: <FiHome />,
+      label: "Accueil",
+      path: "/",
+      auth: "all",
+    },
 
     // Apparaissent SEULEMENT si non connecté
-    { icon: <FiLogIn />, label: "Connexion", path: "/login", auth: "public" },
+    {
+      icon: <FiLogIn />,
+      label: "Connexion",
+      path: "login",
+      auth: "public",
+    },
     {
       icon: <FiActivity />,
       label: "Inscription",
@@ -53,7 +60,7 @@ export default function Navbar() {
   const filteredLinks = navLinks.filter((link) => {
     // Si je ne suis PAS connecté
     // if (!isAuth) {
-      return link.auth === "all" || link.auth === "public";
+    return link.auth === "all" || link.auth === "public";
     // }
 
     // Si je SUIS connecté
@@ -65,7 +72,6 @@ export default function Navbar() {
 
     return false; // Exclut les liens "public" (Login/Register) quand on est connecté
   });
-
   return (
     <div className="bg-background text-foreground">
       <div className="hidden md:block  ">

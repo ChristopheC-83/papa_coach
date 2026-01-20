@@ -18,7 +18,7 @@ export const useUserStore = create(
       },
     }),
     {
-      name: "yfokoi-user-storage", 
+      name: "arc_user_store", 
       onRehydrateStorage: () => (bool) => {
         bool.setHasHydrated(true);
       },
