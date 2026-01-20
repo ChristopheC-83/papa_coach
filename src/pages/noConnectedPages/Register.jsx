@@ -3,11 +3,13 @@ import TitlePage from "@/components/custom/TitlePage";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { signUpUser } from "@/services/auth";
 import { validateRegister } from "@/utils/validateRegister";
 import React, { useState } from "react";
 import { FiActivity } from "react-icons/fi";
 import { LuDumbbell } from "react-icons/lu";
 import { LuTrophy } from "react-icons/lu";
+import { toast } from "sonner";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -16,8 +18,6 @@ export default function Register() {
     password: "",
     role: "athlete", // Valeur par défaut
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  // const [showPassword, setShowPassword] = useState(false);
 
   const inputsRegister = [
     {
@@ -58,28 +58,31 @@ export default function Register() {
       ...prev,
       [id]: value,
     }));
-
-    // 2. On efface l'erreur dès qu'on détecte une frappe
-    if (errorMessage) setErrorMessage("");
   }
 
-  function handleLogin(event) {
+  async function handleRegister(event) {
     event.preventDefault();
-    const error = validateRegister(formData);
-    if (error) {
-      setErrorMessage(error);
+
+
+    if (!validateRegister(formData)) {
       return;
     }
 
-    setErrorMessage("");
-    console.log("coucou");
+    console.log("Données prêtes :", formData); // 🚀 Là, tu vas le voir !
+
+    try {
+      await signUpUser(formData);
+      toast.success("Inscription réussie !");
+    } catch (err) {
+      toast.error(err.message);
+    }
   }
 
   return (
     <div className="w-full max-w-96 mx-auto mt-5">
       <TitlePage titlePage="Inscription" iconPage={<FiActivity />} />
 
-      <form onSubmit={handleLogin} className=" w-full my-8 ">
+      <form onSubmit={handleRegister} className=" w-full my-8 " noValidate>
         {inputsRegister.map((input) => (
           <InputField key={input.id} onChange={handleChange} {...input} />
         ))}
@@ -87,7 +90,6 @@ export default function Register() {
           defaultValue="athlete"
           onValueChange={(value) => {
             setFormData({ ...formData, role: value });
-            setErrorMessage("");
           }}
           className="grid grid-cols-2 gap-4 my-6"
         >
@@ -126,7 +128,6 @@ export default function Register() {
         >
           Inscription
         </button>
-        <p className="text-destructive mt-2">{errorMessage}</p>
       </form>
     </div>
   );
