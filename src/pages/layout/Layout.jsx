@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useUserStore } from "@/store/user/useUserStore";
 import Loader from "@/components/custom/Loader";
-import Navbar from "@/components/custom/navbar/navbar";
+import Navbar from "@/components/navbar/Navbar";
 
 export default function Layout() {
   const user = useUserStore((state) => state.user);
@@ -15,12 +15,10 @@ export default function Layout() {
   return (
     <div className="min-h-svh ">
       <Toaster position="top-center" richColors expand={true} />
-      <main
-        className="bg-primary-foreground text-primary"
-      >
+      <main className="w-dvw h-dvh flex  max-md:flex-col  overflow-hidden">
+        <Navbar />
         <Outlet />
       </main>
-      {/* <Navbar /> */}
     </div>
   );
 }
