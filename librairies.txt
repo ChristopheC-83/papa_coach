@@ -5,4 +5,5 @@ npx shadcn@latest add
 npm install zustand
 npm install @supabase/supabase-js
 npm install react-router-dom
+npm install react-icons --save
 

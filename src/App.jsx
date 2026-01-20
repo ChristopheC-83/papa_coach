@@ -1,10 +1,16 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./pages/layout/Layout";
+import { publicRoutes } from "./routes/publicRoutes";
+import { privateRoutes } from "./routes/privatesRoutes";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [...publicRoutes, ...privateRoutes],
+  },
+]);
 
-function App() {
-
-  return (
-    <h1 className="text-blue-500">coucou</h1>
-  )
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App
