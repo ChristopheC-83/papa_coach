@@ -9,7 +9,7 @@ import ConnectedRoute from "@/pages/routeGuards/ConnectedRoute";
 export const privateRoutes = [
   {
     // Pour tous les connectés (coachs et athletes)
-    path: "/athlete/profile",
+    path: "athlete/profile",
     element: (
       <ConnectedRoute>
         <Profile />

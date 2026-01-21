@@ -65,7 +65,7 @@ export default function Login() {
       toast.success(`Content de vous revoir !`);
 
       // 4. On dégage vers le profil
-      navigate("/profile");
+      navigate("/athlete/profile");
     } catch (err) {
       let message = "Une erreur est survenue";
       if (err.message === "Invalid login credentials") {

@@ -9,7 +9,7 @@ export default function NoConnectedRoute({ children }) {
   if (!isHydrated) return <Loader />;
 
   if (user) {
-    return <Navigate to="/profile" replace />; 
+    return <Navigate to="/athlete/profile" replace />; 
   }
 
   return children;

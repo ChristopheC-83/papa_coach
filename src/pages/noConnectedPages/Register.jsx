@@ -96,7 +96,7 @@ export default function Register() {
           role: "athlete",
         });
         setTimeout(() => {
-          navigate("/profile");
+          navigate("/athlete/profile");
         }, 1500);
       }
     } catch (err) {
