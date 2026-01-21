@@ -8,7 +8,8 @@ import { FiLogIn } from "react-icons/fi";
 import { FiActivity } from "react-icons/fi";
 
 export default function Navbar() {
-  const user = useUserStore((state) => state.user);
+  const { isAuth, user, isHydrated } = useUserStore();
+  const role = user?.role;
 
   const navLinks = [
     {
@@ -35,22 +36,22 @@ export default function Navbar() {
     // Apparaissent SEULEMENT si connecté
     {
       icon: <FiHome />,
-      label: "Dashboard",
-      path: "/dashboard",
+      label: "Profil",
+      path: "/profile",
       auth: "private",
     },
 
     // Role-based
     {
       icon: <FiHome />,
-      label: "Mes Athlètes",
+      label: "Athlètes",
       path: "/coach/athletes",
       auth: "private",
       role: "coach",
     },
     {
       icon: <FiHome />,
-      label: "Mon Programme",
+      label: "Programme",
       path: "/athlete/workout",
       auth: "private",
       role: "athlete",
@@ -58,20 +59,36 @@ export default function Navbar() {
   ];
 
   const filteredLinks = navLinks.filter((link) => {
-    // Si je ne suis PAS connecté
-    // if (!isAuth) {
-    return link.auth === "all" || link.auth === "public";
-    // }
+    // 1. Gestion des liens pour tout le monde (Accueil)
+    if (link.auth === "all") return true;
 
-    // Si je SUIS connecté
-    // if (link.auth === "all") return true;
-    // if (link.auth === "private") {
-    //   // On check le rôle si spécifié, sinon on affiche
-    //   return !link.role || link.role === role;
-    // }
+    // 2. Si je ne suis PAS connecté
+    if (!isAuth) {
+      return link.auth === "public";
+    }
 
-    return false; // Exclut les liens "public" (Login/Register) quand on est connecté
+    // 3. Si je SUIS connecté
+    if (isAuth) {
+      // On cache les liens "public" (Connexion/Inscription)
+      if (link.auth === "public") return false;
+
+      // On gère les liens "private"
+      if (link.auth === "private") {
+        // Si un rôle spécifique est requis, on vérifie
+        if (link.role) {
+          return link.role === role;
+        }
+        return true; // Lien privé sans rôle spécifique (ex: Dashboard général)
+      }
+    }
+
+    return false;
   });
+
+  // Si le store n'est pas encore prêt, on ne rend rien ou un squelette
+  // pour éviter le "flash" de contenu non connecté
+  if (!isHydrated) return null;
+
   return (
     <div className="bg-background text-foreground">
       <div className="hidden md:block  ">

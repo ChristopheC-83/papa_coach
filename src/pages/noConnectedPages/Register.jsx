@@ -4,14 +4,18 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { signUpUser } from "@/services/auth";
+import { useUserStore } from "@/store/user/useUserStore";
 import { validateRegister } from "@/utils/validateRegister";
 import React, { useState } from "react";
 import { FiActivity } from "react-icons/fi";
 import { LuDumbbell } from "react-icons/lu";
 import { LuTrophy } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Register() {
+  const login = useUserStore((state) => state.login);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -63,16 +67,38 @@ export default function Register() {
   async function handleRegister(event) {
     event.preventDefault();
 
-
     if (!validateRegister(formData)) {
       return;
     }
 
-    console.log("Données prêtes :", formData); // 🚀 Là, tu vas le voir !
-
     try {
-      await signUpUser(formData);
-      toast.success("Inscription réussie !");
+      const data = await signUpUser(formData);
+      // 3 lignes de test
+      console.log("USER DATA TO SAVE:", data.user);
+      login(data.user);
+      console.log("STORE STATE AFTER LOGIN:", useUserStore.getState());
+      // data contient normalement { user, session } renvoyés par Supabase
+
+      if (data?.user) {
+        // C'EST CETTE LIGNE QUI REMPLIT TON LOCAL STORAGE
+        login({
+          id: data.user.id,
+          email: data.user.email,
+          username: formData.name, // On récupère le nom du formulaire
+          role: formData.role,     // On récupère le rôle du formulaire
+        });
+        toast.success("Bienvenue dans l'aventure A.R.C. !");
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          role: "athlete",
+        });
+        setTimeout(() => {
+          navigate("/profile");
+        }, 1500);
+      }
     } catch (err) {
       toast.error(err.message);
     }

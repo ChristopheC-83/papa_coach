@@ -1,17 +1,23 @@
 import InputField from "@/components/custom/InputField";
 import TitlePage from "@/components/custom/TitlePage";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { LoginUser } from "@/services/loginUser";
+import { useUserStore } from "@/store/user/useUserStore";
 import { validateLogin } from "@/utils/validateLogin";
 import React, { useState } from "react";
 import { FiLogIn } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function Login() {
   const [formData, setFormData] = useState({
-      email: "",
-      password: "",
-    });
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false); // Pour le feedback UX
+
+  const login = useUserStore((state) => state.login);
+  const navigate = useNavigate();
 
   const inputsLlogin = [
     {
@@ -22,7 +28,7 @@ export default function Login() {
       autoComplete: "email",
     },
     {
-      label: "Password",
+      label: "Mot de Passe",
       id: "password",
       type: "password",
       value: formData.password,
@@ -32,23 +38,50 @@ export default function Login() {
 
   function handleChange(event) {
     const { id, value } = event.target;
-
-    // 1. On met à jour la data dynamiquement grâce à l'id de l'input
     setFormData((prev) => ({
       ...prev,
       [id]: value,
     }));
   }
 
-  function handleLogin(event) {
-      event.preventDefault();
-      const error = validateLogin(formData);
-      if (error) {
-        return;
-      }
-  
-      console.log("coucou");
+  async function handleLogin(event) {
+    event.preventDefault();
+    // 1. Validation locale
+    if (!validateLogin(formData)) {
+      return;
     }
+    setIsLoading(true);
+
+    try {
+      // 2. Appel du service que tu as créé
+      const userData = await LoginUser({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // 3. Mise à jour du store (Zustand)
+      login(userData);
+
+      toast.success(`Content de vous revoir !`);
+
+      // 4. On dégage vers le profil
+      navigate("/profile");
+    } catch (err) {
+      // 2. ERREUR SERVEUR (Identifiants faux, compte inexistant)
+      // Ici, le toast est INDISPENSABLE car l'utilisateur doit savoir pourquoi il n'entre pas.
+
+      // On peut traduire les erreurs courantes de Supabase
+      let message = "Une erreur est survenue";
+      if (err.message === "Invalid login credentials") {
+        message = "Email et/ou mot de passe incorrect";
+      }
+
+      toast.error(message); // On affiche l'erreur à l'utilisateur
+      console.error("Détails techniques:", err.message); // On garde le log pour nous
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="w-full max-w-96 mx-auto mt-5">
@@ -65,7 +98,7 @@ export default function Login() {
             " hover:text-secondary-foreground hover:bg-accent",
           )}
         >
-          Connexion
+          {isLoading ? "Connexion..." : "Se connecter"}
         </button>
       </form>
     </div>

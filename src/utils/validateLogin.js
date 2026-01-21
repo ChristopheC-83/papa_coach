@@ -4,13 +4,13 @@ export function validateLogin(formData) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!formData.email || !emailRegex.test(formData.email)) {
     toast.error("Adresse email invalide.");
-    return;
+    return false;
   }
 
   if (!formData.password) {
     toast.error("Saisir votre mot de passe.");
-    return;
+    return false;
   }
 
-  toast.success("Connexion réussie.");
+  return true;
 }
