@@ -67,17 +67,13 @@ export default function Login() {
       // 4. On dégage vers le profil
       navigate("/profile");
     } catch (err) {
-      // 2. ERREUR SERVEUR (Identifiants faux, compte inexistant)
-      // Ici, le toast est INDISPENSABLE car l'utilisateur doit savoir pourquoi il n'entre pas.
-
-      // On peut traduire les erreurs courantes de Supabase
       let message = "Une erreur est survenue";
       if (err.message === "Invalid login credentials") {
         message = "Email et/ou mot de passe incorrect";
       }
 
-      toast.error(message); // On affiche l'erreur à l'utilisateur
-      console.error("Détails techniques:", err.message); // On garde le log pour nous
+      toast.error(message); 
+      console.error("Détails techniques:", err.message); 
     } finally {
       setIsLoading(false);
     }

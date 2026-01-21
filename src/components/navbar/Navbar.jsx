@@ -6,6 +6,11 @@ import { useUserStore } from "@/store/user/useUserStore";
 import { FiHome } from "react-icons/fi";
 import { FiLogIn } from "react-icons/fi";
 import { FiActivity } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";import { FiUsers } from "react-icons/fi";import { FiCalendar } from "react-icons/fi";import { FiUserCheck } from "react-icons/fi";
+
+
+
+
 
 export default function Navbar() {
   const { isAuth, user, isHydrated } = useUserStore();
@@ -33,52 +38,77 @@ export default function Navbar() {
       auth: "public",
     },
 
-    // Apparaissent SEULEMENT si connecté
+    // Apparaissent SEULEMENT si connecté (athlètes et coachs)
     {
-      icon: <FiHome />,
+      icon: <FiUser />,
       label: "Profil",
-      path: "/profile",
+      path: "/athlete/profile",
       auth: "private",
-    },
-
-    // Role-based
-    {
-      icon: <FiHome />,
-      label: "Athlètes",
-      path: "/coach/athletes",
-      auth: "private",
-      role: "coach",
     },
     {
       icon: <FiHome />,
       label: "Programme",
       path: "/athlete/workout",
       auth: "private",
-      role: "athlete",
+      minRole: "athlete",
+    },
+    {
+      icon: <FiUserCheck />,
+      label: "Mon Coach",
+      path: "/athlete/coach",
+      auth: "private",
+      minRole: "athlete",
+    },
+
+    // Apparaissent SEULEMENT si role = coach
+    {
+      icon: <FiUsers />,
+      label: "Athlètes",
+      path: "/coach/athletes",
+      auth: "private",
+      minRole: "coach",
+    },
+    {
+      icon: <FiCalendar />,
+      label: "Préparations",
+      path: "/coach/prepareWorkout",
+      auth: "private",
+      minRole: "coach",
     },
   ];
 
+  // 1. Définition de la hiérarchie des rôles
+  const roleLevels = {
+    athlete: 1,
+    coach: 2,
+    // admin: 3, (Facile à ajouter plus tard)
+  };
+
   const filteredLinks = navLinks.filter((link) => {
-    // 1. Gestion des liens pour tout le monde (Accueil)
+    // Cas 1 : Lien universel (Accueil)
     if (link.auth === "all") return true;
 
-    // 2. Si je ne suis PAS connecté
+    // Cas 2 : Utilisateur NON connecté
     if (!isAuth) {
       return link.auth === "public";
     }
 
-    // 3. Si je SUIS connecté
+    // Cas 3 : Utilisateur CONNECTÉ
     if (isAuth) {
-      // On cache les liens "public" (Connexion/Inscription)
+      // On dégage les liens publics (Login/Register)
       if (link.auth === "public") return false;
 
-      // On gère les liens "private"
+      // On traite les liens privés
       if (link.auth === "private") {
-        // Si un rôle spécifique est requis, on vérifie
-        if (link.role) {
-          return link.role === role;
-        }
-        return true; // Lien privé sans rôle spécifique (ex: Dashboard général)
+        // S'il n'y a pas de minRole, tout le monde voit (ex: Profil)
+        if (!link.minRole) return true;
+
+        // LOGIQUE CLÉ : On compare les niveaux
+        // Le niveau de l'utilisateur doit être >= au niveau requis par le lien
+        const userLevel = roleLevels[role] || 0;
+        const requiredLevel = roleLevels[link.minRole] || 0;
+
+        return userLevel >= requiredLevel;
       }
     }
 
