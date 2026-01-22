@@ -7,6 +7,9 @@ import {
   FiCalendar,
   FiUserCheck,
   FiTool,
+  FiLink2,
+  FiPenTool,
+  FiClipboard,
 } from "react-icons/fi";
 
 const navLinks = [
@@ -71,6 +74,50 @@ const navLinks = [
   },
 ];
 
+export const coachTools = [
+  {
+    icon: FiLink2,
+    label: "Liens d'invitation",
+    path: "/coach/invitation",
+    auth: "private",
+    minRole: "coach",
+  },
+  {
+    icon: FiPenTool,
+    label: "Biographie",
+    path: "/coach/biography",
+    auth: "private",
+    minRole: "coach",
+  },
+  {
+    icon: FiClipboard,
+    label: "Création Séances",
+    path: "/coach/sessions",
+    auth: "private",
+    minRole: "coach",
+  },
+  {
+    icon: FiClipboard,
+    label: "Ressources",
+    path: "/coach/resources",
+    auth: "private",
+    minRole: "coach",
+  },
+  {
+    icon: FiUser,
+    label: "Profil",
+    path: "/athlete/profile",
+    auth: "private",
+  },
+  {
+    icon: FiCalendar,
+    label: "Mon Programme",
+    path: "/coach/myWorkout",
+    auth: "private",
+    minRole: "athlete",
+  },
+];
+
 // 1. Définition de la hiérarchie des rôles
 const roleLevels = {
   athlete: 1,
@@ -110,3 +157,5 @@ export function getFilteredLinks(isAuth, role) {
     return false;
   });
 }
+
+
