@@ -36,3 +36,7 @@ export function validateRegister(formData) {
 
   return true
 }
+
+export const generateCoachCode = () => {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+};

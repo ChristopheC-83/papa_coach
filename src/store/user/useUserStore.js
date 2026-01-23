@@ -23,8 +23,12 @@ export const useUserStore = create(
       setUser: (userData) =>
         set({
           user: userData,
-          isAuth: !!userData, 
+          isAuth: !!userData,
         }),
+      updateUser: (newData) =>
+        set((state) => ({
+          user: { ...state.user, ...newData },
+        })),
 
       setHasHydrated: (state) => set({ isHydrated: state }),
 

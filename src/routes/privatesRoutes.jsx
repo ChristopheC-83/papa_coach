@@ -15,7 +15,7 @@ export const privateRoutes = [
     // Pour tous les connectés (coachs et athletes)
     path: "athlete/profile",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="athlete">
         <Profile />
       </ConnectedRoute>
     ),
@@ -23,7 +23,7 @@ export const privateRoutes = [
   {
     path: "athlete/workout",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="athlete">
         <MyWorkout />
       </ConnectedRoute>
     ),
@@ -31,7 +31,7 @@ export const privateRoutes = [
   {
     path: "athlete/coach",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="athlete">
         <MyCoach />
       </ConnectedRoute>
     ),
@@ -40,7 +40,7 @@ export const privateRoutes = [
   {
     path: "coach/invitation",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="coach">
         <Invitations />
       </ConnectedRoute>
     ),
@@ -48,7 +48,7 @@ export const privateRoutes = [
   {
     path: "coach/biography",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="coach">
         <Biography />
       </ConnectedRoute>
     ),
@@ -56,7 +56,7 @@ export const privateRoutes = [
   {
     path: "coach/typicals_sessions",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="coach">
         <TypicalsSessions />
       </ConnectedRoute>
     ),
@@ -64,7 +64,7 @@ export const privateRoutes = [
   {
     path: "coach/resources",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="coach">
         <Resources />
       </ConnectedRoute>
     ),
@@ -72,7 +72,7 @@ export const privateRoutes = [
   {
     path: "coach/athletes",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="coach">
         <Athletes />
       </ConnectedRoute>
     ),
@@ -80,10 +80,9 @@ export const privateRoutes = [
   {
     path: "coach/prepareWorkout",
     element: (
-      <ConnectedRoute>
+      <ConnectedRoute allowedRole="coach">
         <PrepareWorkout />
       </ConnectedRoute>
     ),
   },
-  // Tes futures routes (planning, coaching, etc.) iront ici
 ];

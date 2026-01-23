@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { signUpUser } from "@/services/auth";
 import { useUserStore } from "@/store/user/useUserStore";
-import { validateRegister } from "@/utils/validateRegister";
+import { generateCoachCode, validateRegister } from "@/utils/validateRegister";
 import React, { useState } from "react";
 import { FiActivity } from "react-icons/fi";
 import { LuDumbbell } from "react-icons/lu";
@@ -21,6 +21,7 @@ export default function Register() {
     email: "",
     password: "",
     role: "athlete", // Valeur par défaut
+    invitation_code : null
   });
 
   const inputsRegister = [
@@ -64,6 +65,8 @@ export default function Register() {
     }));
   }
 
+ 
+
   async function handleRegister(event) {
     event.preventDefault();
 
@@ -72,12 +75,19 @@ export default function Register() {
     }
 
     try {
-      const data = await signUpUser(formData);
+      // 1. On calcule le code localement (pas dans le state)
+      let finalCode = null;
+      if (formData.role === "coach") {
+        finalCode = generateCoachCode();
+      }
+
+      // 2. On prépare l'objet final à envoyer au service
+      const userData = {
+        ...formData,
+        invitation_code: finalCode,
+      };
+      const data = await signUpUser(userData);
       // 3 lignes de test
-      console.log("USER DATA TO SAVE:", data.user);
-      login(data.user);
-      console.log("STORE STATE AFTER LOGIN:", useUserStore.getState());
-      // data contient normalement { user, session } renvoyés par Supabase
 
       if (data?.user) {
         // C'EST CETTE LIGNE QUI REMPLIT TON LOCAL STORAGE
@@ -85,7 +95,8 @@ export default function Register() {
           id: data.user.id,
           email: data.user.email,
           username: formData.name, // On récupère le nom du formulaire
-          role: formData.role,     // On récupère le rôle du formulaire
+          role: formData.role, // On récupère le rôle du formulaire
+          invitation_code: finalCode,
         });
         toast.success("Bienvenue dans l'aventure A.R.C. !");
         setFormData({
@@ -94,6 +105,7 @@ export default function Register() {
           password: "",
           confirmPassword: "",
           role: "athlete",
+          invitation_code: null,
         });
         setTimeout(() => {
           navigate("/athlete/profile");
