@@ -1,7 +1,7 @@
 import TitlePage from "@/components/custom/TitlePage";
 import { FiClock, FiMail, FiUser, FiRefreshCw } from "react-icons/fi";
-import CoachCard from "./CoachCard";
-import LinkCoachForm from "./LinkCoachForm";
+import CoachCard from "../MyWorkout/components/CoachCard";
+import LinkCoachForm from "./components/LinkCoachForm";
 import { useMyCoach } from "@/customHooks/useMyCoach";
 import { useUserStore } from "@/store/user/useUserStore";
 

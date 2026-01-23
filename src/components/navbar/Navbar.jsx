@@ -1,7 +1,7 @@
 
 import React from "react";
 import NavbarMobile from "./NavbarMobile";
-import NavbarDesktop from "./NavbarDesktop";
+import NavbarDesktop from "./NavbarDesktop/NavbarDesktop";
 import { useUserStore } from "@/store/user/useUserStore";
 
 export default function Navbar() {

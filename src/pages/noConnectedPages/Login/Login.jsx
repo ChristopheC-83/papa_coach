@@ -73,8 +73,8 @@ export default function Login() {
         message = "Email et/ou mot de passe incorrect";
       }
 
-      toast.error(message); 
-      console.error("Détails techniques:", err.message); 
+      toast.error(message);
+      console.error("Détails techniques:", err.message);
     } finally {
       setIsLoading(false);
     }

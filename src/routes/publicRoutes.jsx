@@ -1,6 +1,6 @@
-import Home from "@/pages/noConnectedPages/Home";
-import Login from "@/pages/noConnectedPages/Login";
-import Register from "@/pages/noConnectedPages/Register";
+import Home from "@/pages/noConnectedPages/Home/Home";
+import Login from "@/pages/noConnectedPages/Login/Login";
+import Register from "@/pages/noConnectedPages/Register/Register";
 import NoConnectedRoute from "@/pages/routeGuards/NoConnectedRoute";
 
 export const publicRoutes = [
