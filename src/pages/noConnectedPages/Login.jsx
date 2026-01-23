@@ -63,6 +63,7 @@ export default function Login() {
       login(userData);
 
       toast.success(`Content de vous revoir !`);
+      setFormData({ email: "", password: "" });
 
       // 4. On dégage vers le profil
       navigate("/athlete/profile");

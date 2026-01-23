@@ -5,6 +5,10 @@ import MyCoach from "@/pages/connectedPages/athletes/MyCoach";
 import Athletes from "@/pages/connectedPages/coachs/Athletes";
 import PrepareWorkout from "@/pages/connectedPages/coachs/PrepareWorkout";
 import ConnectedRoute from "@/pages/routeGuards/ConnectedRoute";
+import Invitations from "@/pages/connectedPages/coachs/Invitations";
+import Biography from "@/pages/connectedPages/coachs/Biography";
+import TypicalsSessions from "@/pages/connectedPages/coachs/TypicalsSessions";
+import Resources from "@/pages/connectedPages/coachs/Resources";
 
 export const privateRoutes = [
   {
@@ -33,6 +37,38 @@ export const privateRoutes = [
     ),
   },
   //  Pour les coachs
+  {
+    path: "coach/invitation",
+    element: (
+      <ConnectedRoute>
+        <Invitations />
+      </ConnectedRoute>
+    ),
+  },
+  {
+    path: "coach/biography",
+    element: (
+      <ConnectedRoute>
+        <Biography />
+      </ConnectedRoute>
+    ),
+  },
+  {
+    path: "coach/typicals_sessions",
+    element: (
+      <ConnectedRoute>
+        <TypicalsSessions />
+      </ConnectedRoute>
+    ),
+  },
+  {
+    path: "coach/resources",
+    element: (
+      <ConnectedRoute>
+        <Resources />
+      </ConnectedRoute>
+    ),
+  },
   {
     path: "coach/athletes",
     element: (

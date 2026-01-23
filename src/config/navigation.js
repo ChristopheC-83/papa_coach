@@ -67,7 +67,7 @@ export const COACH_LINKS = {
     },
     {
       label: "Création Séances",
-      path: "/coach/sessions",
+      path: "/coach/typicals_sessions",
       icon: FiClipboard,
     },
     {
