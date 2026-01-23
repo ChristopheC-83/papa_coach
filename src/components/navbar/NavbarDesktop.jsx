@@ -33,7 +33,7 @@ export default function NavbarDesktop({ user }) {
     navigate("/login");
   }
   return (
-    <nav className="px-4 my-2 min-w-40 flex flex-col gap-3">
+    <nav className="px-4 my-2 min-w-40 flex flex-col gap-3 fixed top-0 left-0">
       {links.map((link) => {
         const Icon = link.icon;
         return (
