@@ -15,16 +15,16 @@ export default function Layout() {
   if (!isHydrated) return <Loader />;
 
   return (
-    <div className="min-h-dvh  w-dvw">
+    <div className="min-h-dvh  w-vw overflow-hidden">
       <Toaster position="top-center" richColors expand={true} />
-      <main className="w-dvw min-h-dvh flex max-md:flex-col md:pl-52 md:pr-3 overflow-hidden bg-background text-foreground ">
+      <main className="w-vw min-h-dvh flex max-md:flex-col md:pl-52 md:pr-3 overflow-hidden bg-background text-foreground ">
         <Navbar />
         <div className="flex flex-col w-full">
           <Title
-                  title="A.R.C."
-                  subtitle="Analyse et Relation de Coaching"
-                  iconTitle={<FiActivity />}
-                />
+            title="A.R.C."
+            subtitle="Analyse et Relation de Coaching"
+            iconTitle={<FiActivity />}
+          />
           <Outlet />
         </div>
       </main>

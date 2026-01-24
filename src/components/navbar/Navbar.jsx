@@ -1,8 +1,8 @@
 
 import React from "react";
-import NavbarMobile from "./NavbarMobile";
 import NavbarDesktop from "./NavbarDesktop/NavbarDesktop";
 import { useUserStore } from "@/store/user/useUserStore";
+import NavbarMobile from "./NavbarMobile/NavbarMobile";
 
 export default function Navbar() {
   const {  user, isHydrated } = useUserStore();

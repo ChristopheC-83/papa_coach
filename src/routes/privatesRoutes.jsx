@@ -1,13 +1,15 @@
-import Profile from "@/pages/connectedPages/athletes/Profile/Profile";
-import MyWorkout from "@/pages/connectedPages/athletes/MyWorkout";
+
 import MyCoach from "@/pages/connectedPages/athletes/MyCoach/MyCoach";
+import MyWorkout from "@/pages/connectedPages/athletes/MyWorkout/MyWorkout";
+import Profile from "@/pages/connectedPages/athletes/Profile/Profile";
 import Athletes from "@/pages/connectedPages/coachs/Athletes/Athletes";
-import PrepareWorkout from "@/pages/connectedPages/coachs/PrepareWorkout/PrepareWorkout";
-import ConnectedRoute from "@/pages/routeGuards/ConnectedRoute";
-import Invitations from "@/pages/connectedPages/coachs/Invitations/Invitations";
 import Biography from "@/pages/connectedPages/coachs/Biography/Biography";
-import TypicalsSessions from "@/pages/connectedPages/coachs/TypicalSessions/TypicalsSessions";
+import Invitations from "@/pages/connectedPages/coachs/Invitations/Invitations";
+import PrepareWorkout from "@/pages/connectedPages/coachs/PrepareWorkout/PrepareWorkout";
 import Resources from "@/pages/connectedPages/coachs/Resources/Resources";
+import TypicalsSessions from "@/pages/connectedPages/coachs/TypicalSessions/TypicalsSessions";
+import ConnectedRoute from "@/pages/routeGuards/ConnectedRoute";
+
 
 export const privateRoutes = [
   {

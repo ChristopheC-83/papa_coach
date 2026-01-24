@@ -7,8 +7,8 @@ import {
 } from "react-icons/fi";
 
 export default function CoachCard({ coach, onUnlink }) {
-    const [showConfirm, setShowConfirm] = useState(false);
-    console.log(coach)
+  const [showConfirm, setShowConfirm] = useState(false);
+  console.log(coach);
 
   return (
     <div className="w-full max-w-md mx-auto mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500">

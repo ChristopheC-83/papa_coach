@@ -1,29 +1,43 @@
 import TitlePage from "@/components/custom/TitlePage";
 import { FiClock, FiMail, FiUser, FiRefreshCw } from "react-icons/fi";
-import CoachCard from "../MyWorkout/components/CoachCard";
+import CoachCard from "./components/CoachCard";
 import LinkCoachForm from "./components/LinkCoachForm";
 import { useMyCoach } from "@/customHooks/useMyCoach";
 import { useUserStore } from "@/store/user/useUserStore";
+import { useEffect } from "react";
+import { LuDumbbell } from "react-icons/lu";
 
 export default function MyCoach() {
   const { user } = useUserStore();
   const { coachData, loading, handleLink, handleUnlink, refreshStatus } =
     useMyCoach();
-  console.log(user?.link_status);
+  
+  
+    useEffect(() => {
+        refreshStatus();
+      
+    }, []);
+  
   if (loading)
     return <div className="p-10 text-center animate-pulse">Chargement...</div>;
 
   // CAS 1 : Pas de coach du tout
   if (!user?.coach_id) {
-    return <LinkCoachForm onLink={handleLink} />;
+    return (
+      <div className="w-full max-w-md mx-auto mt-5 p-4 space-y-8 pb-24">
+        <TitlePage titlePage="Mon Coach" iconPage={<LuDumbbell />} />
+        <LinkCoachForm onLink={handleLink} />
+      </div>
+    );
   }
 
   // CAS 2 : En attente de validation
   if (user?.link_status === "pending") {
     return (
-      <>
+      <div className="w-full max-w-md mx-auto mt-5 p-4 space-y-8 pb-24">
+        <TitlePage titlePage="Mon Coach" iconPage={<LuDumbbell />} />
         <button
-          onClick={refreshStatus}
+          onClick={() => refreshStatus(true)}
           className="flex items-center gap-2 mx-auto mt-4 px-4 py-2 bg-secondary rounded-full text-sm font-medium active:scale-95 transition-all"
         >
           <FiRefreshCw size={14} /> Vérifier la validation
@@ -47,9 +61,14 @@ export default function MyCoach() {
             Annuler la demande
           </button>
         </div>
-      </>
+      </div>
     );
   }
   // CAS 3 : Coach actif (le code que tu as déjà)
-  return <CoachCard coach={coachData} onUnlink={handleUnlink} />;
+  return (
+    <div className="w-full max-w-md mx-auto mt-5 p-4 space-y-8 pb-24">
+      <TitlePage titlePage="Mon Coach" iconPage={<LuDumbbell />} />
+      <CoachCard coach={coachData} onUnlink={handleUnlink} />
+    </div>
+  );
 }

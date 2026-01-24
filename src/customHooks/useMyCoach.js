@@ -18,13 +18,7 @@ export function useMyCoach() {
     loading: true,
   });
 
-  useEffect(() => {
-    // À chaque fois que l'athlète arrive sur l'onglet "Coach"
-    // On fait un petit refresh discret pour vérifier s'il est toujours lié
-    if (user?.id) {
-      refreshStatus();
-    }
-  }, []);
+
 
   // 1. Gestion de la récupération des données
   useEffect(() => {
@@ -78,7 +72,7 @@ export function useMyCoach() {
 
   // 4. Refresh status
 
-  const refreshStatus = async () => {
+  const refreshStatus = async (showToast = false) => {
     if (!user?.id) return;
     try {
       // Appel au service (Couche Data)
@@ -89,8 +83,9 @@ export function useMyCoach() {
         coach_id: data.coach_id,
         link_status: data.link_status,
       });
-
-      toast.success("Statut mis à jour");
+     if (showToast === true) {console.log("DEBUG: Tentative d'affichage du toast...");
+       toast.success("Statut mis à jour!!!");
+     }
     } catch (err) {
       toast.error("Erreur de synchronisation");
       console.error(err);
