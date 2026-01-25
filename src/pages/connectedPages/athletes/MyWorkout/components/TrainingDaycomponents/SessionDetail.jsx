@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FiCalendar, FiCheckCircle } from "react-icons/fi";
+import {  FiCheckCircle } from "react-icons/fi";
 import StepDetail from "./StepDetail";
 export default function SessionDetail({ selectedSession }) {
   return (

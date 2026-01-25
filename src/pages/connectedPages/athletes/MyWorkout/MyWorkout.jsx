@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import TitlePage from "@/components/custom/TitlePage";
-import { FiCalendar, FiCheckCircle } from "react-icons/fi";
+import { FiCalendar,  } from "react-icons/fi";
 import {  isSameDay, subDays } from "date-fns";
-
-import CalendarWorkoutHeader from "./components/CalendarWorkoutHeader";
 import CalendarWorkout from "./components/CalendarWorkout";
 import TrainingDay from "./components/TrainingDay";
 

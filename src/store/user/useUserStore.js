@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 export const useUserStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       isHydrated: false,
       isAuth: false,
@@ -14,30 +14,38 @@ export const useUserStore = create(
           isAuth: true,
         }),
 
-      logout: () =>
+      logout: () => {
         set({
           user: null,
           isAuth: false,
-        }),
+        });
+        // Optionnel : localStorage.removeItem("arc_user_store")
+        // Mais le set({user: null}) via persist s'en occupe déjà très bien.
+      },
 
       setUser: (userData) =>
         set({
           user: userData,
-          isAuth: !!userData,
+          isAuth: Boolean(userData),
         }),
+
       updateUser: (newData) =>
         set((state) => ({
-          user: { ...state.user, ...newData },
+          user: state.user ? { ...state.user, ...newData } : null,
         })),
 
-      setHasHydrated: (state) => set({ isHydrated: state }),
+      // HELPERS : Très utile pour éviter les erreurs de lecture
+      getUserId: () => get().user?.id || null,
+      getUserRole: () => get().user?.role || "athlete",
 
-      clearUser: () => set({ user: null }),
+      setHasHydrated: (state) => set({ isHydrated: state }),
     }),
     {
       name: "arc_user_store",
-      onRehydrateStorage: () => (bool) => {
-        bool.setHasHydrated(true);
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.setHasHydrated(true);
+        }
       },
     },
   ),
