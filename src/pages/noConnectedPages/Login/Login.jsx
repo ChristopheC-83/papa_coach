@@ -14,12 +14,15 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false); // Pour le feedback UX
-
+  // feedback UX
+  const [isLoading, setIsLoading] = useState(false);
+  // zustand
   const login = useUserStore((state) => state.login);
+  // router
   const navigate = useNavigate();
 
-  const inputsLlogin = [
+  //  on ne sort pas ce tableau du composant => gestion des states
+  const inputsLogin = [
     {
       label: "Email",
       id: "email",
@@ -36,6 +39,7 @@ export default function Login() {
     },
   ];
 
+  //  modification des states des inputs
   function handleChange(event) {
     const { id, value } = event.target;
     setFormData((prev) => ({
@@ -46,14 +50,14 @@ export default function Login() {
 
   async function handleLogin(event) {
     event.preventDefault();
-    // 1. Validation locale
+    // 1. Validation des inputs
     if (!validateLogin(formData)) {
       return;
     }
     setIsLoading(true);
 
     try {
-      // 2. Appel du service que tu as créé
+      // 2. Appel de Supabase
       const userData = await LoginUser({
         email: formData.email,
         password: formData.password,
@@ -65,7 +69,7 @@ export default function Login() {
       toast.success(`Content de vous revoir !`);
       setFormData({ email: "", password: "" });
 
-      // 4. On dégage vers le profil
+      // 4. On réoriente vers le profil
       navigate("/athlete/profile");
     } catch (err) {
       let message = "Une erreur est survenue";
@@ -85,7 +89,7 @@ export default function Login() {
       <TitlePage titlePage="Connexion" iconPage={<FiLogIn />} />
 
       <form onSubmit={handleLogin} className=" w-full my-8 " noValidate>
-        {inputsLlogin.map((input) => (
+        {inputsLogin.map((input) => (
           <InputField key={input.id} onChange={handleChange} {...input} />
         ))}
         <button
