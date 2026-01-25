@@ -10,7 +10,7 @@ inscription OK
 
 Athletes 
 
-programme 
+programme OK
 monCoach 
 profile 
 

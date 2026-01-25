@@ -19,9 +19,10 @@ export default function CalendarWorkout({
   races,
   selectedDate,
   setSelectedDate,
+  recos,
 }) {
   const weekDays = ["L", "M", "M", "J", "V", "S", "D"];
-
+  
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
@@ -54,6 +55,7 @@ export default function CalendarWorkout({
             const isCurrentMonth = isSameMonth(day, monthStart);
             const hasEvent = trainings.some((s) => isSameDay(s.date, day));
             const hasRace = races.some((s) => isSameDay(s.date, day));
+            const hasReco = recos.some((s) => isSameDay(s.date, day));
             // console.log(hasEvent);
 
             return (
@@ -63,7 +65,7 @@ export default function CalendarWorkout({
                 className={`
                      relative h-10 flex items-center justify-center rounded-xl text-sm transition-all
                      ${!isCurrentMonth ? "opacity-10" : "opacity-100"}
-                     ${isSelected ? "bg-primary text-white font-black scale-110 z-10 shadow-lg shadow-primary/30" : "hover:bg-secondary font-bold"}
+                     ${isSelected ? "bg-primary text-white text-shadow font-black scale-110 z-10 shadow-lg shadow-primary/30" : "hover:bg-secondary font-bold"}
                      ${isToday && !isSelected ? "border border-primary text-primary" : ""}
                    `}
               >
@@ -75,7 +77,12 @@ export default function CalendarWorkout({
                 )}
                 {hasRace && !isSelected && (
                   <div
-                    className={`absolute -bottom-2 size-2 bg-destructive rounded-full`}
+                    className={`absolute -bottom-2.5 size-3 bg-destructive rounded-full border border-white`}
+                  />
+                )}
+                {hasReco && !isSelected && (
+                  <div
+                    className={`absolute -bottom-2 size-2 bg-destructive/70 rounded-full`}
                   />
                 )}
               </button>
