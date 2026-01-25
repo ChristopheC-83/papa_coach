@@ -10,16 +10,16 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
   // feedback UX
   const [isLoading, setIsLoading] = useState(false);
   // zustand
   const login = useUserStore((state) => state.login);
   // router
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   //  on ne sort pas ce tableau du composant => gestion des states
   const inputsLogin = [
