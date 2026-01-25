@@ -12,16 +12,6 @@ export default function MyWorkout() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // const monthStart = startOfMonth(currentMonth);
-  // const monthEnd = endOfMonth(monthStart);
-  // const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
-  // const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
-  // const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
-
-  
-
-  // --- MOCK DATA (À remplacer par Supabase) ---
-
   const racesExamples = [
     {
       date: new Date(new Date().setDate(new Date().getDate() - 7)),

@@ -9,7 +9,7 @@ export default function LinkCoachForm({ onLink }) {
       <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
         <FiUserPlus className="text-primary text-2xl" />
       </div>
-      <h2 className="text-xl font-bold mb-2">Trouve ton mentor</h2>
+      <h2 className="text-xl font-bold mb-2 ">Trouve ton mentor</h2>
       <input
         type="text"
         placeholder="Ex: ARC-X8Z9"
@@ -19,7 +19,7 @@ export default function LinkCoachForm({ onLink }) {
       />
       <button
         onClick={() => onLink(inviteCode)}
-        className="w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-all"
+        className="w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-all text-shadow"
       >
         Rejoindre ce coach
       </button>

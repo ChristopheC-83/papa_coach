@@ -64,9 +64,9 @@ export default function CoachCard({ coach, onUnlink }) {
         <div className="flex flex-col gap-3">
           <a
             href={`mailto:${coach?.email}`}
-            className="w-full flex items-center justify-center gap-2 py-4 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all"
+            className="w-full flex items-center justify-center gap-2 py-4 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all text-shadow"
           >
-            <FiMessageCircle className="text-xl" />
+            <FiMessageCircle className="text-xl png-shadow" />
             Contacter par email
           </a>
 
