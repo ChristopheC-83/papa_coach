@@ -92,7 +92,7 @@ export default function MyWorkout() {
   );
 
   return (
-    <div className="w-fit max-w-4xl mx-auto mt-5 p-4 space-y-6 pb-24 ">
+    <div className="w-full md:w-fit max-w-4xl mx-auto mt-5 p-4 space-y-6 pb-24 ">
       <TitlePage titlePage="Planning" iconPage={<FiCalendar />} />
 
       <div className="w-full mx-auto flex max-lg:flex-col justify-between gap-4 max-lg:items-center">

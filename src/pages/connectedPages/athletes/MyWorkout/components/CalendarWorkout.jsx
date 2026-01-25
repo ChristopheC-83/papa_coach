@@ -30,7 +30,7 @@ export default function CalendarWorkout({
   const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
 
   return (
-    <div className=" w-md flex flex-col">
+    <div className=" w-md max-w-full max-md:mx-2 flex flex-col">
       <CalendarWorkoutHeader
         currentMonth={currentMonth}
         setCurrentMonth={setCurrentMonth}
