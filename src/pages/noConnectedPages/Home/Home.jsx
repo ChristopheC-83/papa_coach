@@ -1,8 +1,8 @@
 import React from "react";
 import { useUserStore } from "@/store/user/useUserStore";
 import { Link } from "react-router-dom";
-import ForAthletes from "./components/ForAthletes";
-import ForCoachs from "./components/ForCoachs";
+import ForTarget from "./components/ForTarget";
+import { ATHLETE_FEATURES, COACH_FEATURES } from "@/constants/Home/features";
 
 export default function Home() {
   const { user } = useUserStore();
@@ -11,7 +11,7 @@ export default function Home() {
     <div className="w-full max-w-4xl mx-auto px-4 py-12 space-y-16">
       {/* --- HERO SECTION --- */}
       <header className="text-center space-y-4">
-        <h1 className="text-5xl font-black tracking-tighter  uppercase italic">
+        <h1 className="text-5xl font-black tracking-tighter uppercase italic">
           ARC<span className="text-primary">.</span>
         </h1>
         <p className="text-xl text-muted-foreground font-medium max-w-md mx-auto leading-tight">
@@ -20,8 +20,8 @@ export default function Home() {
         {!user && (
           <div className="pt-6">
             <Link
-              to="/login"
-              className="bg-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all inline-block"
+              to="/register"
+              className="bg-secondary/80 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-secondary/30 hover:border-primary transition-all inline-block border border-primary/60"
             >
               Commencer l'aventure
             </Link>
@@ -29,9 +29,8 @@ export default function Home() {
         )}
       </header>
 
-      <ForAthletes />
-
-      <ForCoachs />
+      <ForTarget {...ATHLETE_FEATURES} />
+      <ForTarget {...COACH_FEATURES} />
 
       {/* --- FOOTER / CTA --- */}
       <footer className="text-center pt-10 pb-20">

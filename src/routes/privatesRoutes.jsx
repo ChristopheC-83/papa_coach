@@ -5,6 +5,7 @@ import Profile from "@/pages/connectedPages/athletes/Profile/Profile";
 import Athletes from "@/pages/connectedPages/coachs/Athletes/Athletes";
 import Biography from "@/pages/connectedPages/coachs/Biography/Biography";
 import Invitations from "@/pages/connectedPages/coachs/Invitations/Invitations";
+import MyCoachWorkout from "@/pages/connectedPages/coachs/MyCoachWorkout/MyCoachWorkout";
 import PrepareWorkout from "@/pages/connectedPages/coachs/PrepareWorkout/PrepareWorkout";
 import Resources from "@/pages/connectedPages/coachs/Resources/Resources";
 import TypicalsSessions from "@/pages/connectedPages/coachs/TypicalSessions/TypicalsSessions";
@@ -83,6 +84,14 @@ export const privateRoutes = [
     element: (
       <ConnectedRoute allowedRole="coach">
         <PrepareWorkout />
+      </ConnectedRoute>
+    ),
+  },
+  {
+    path: "coach/workout",
+    element: (
+      <ConnectedRoute allowedRole="coach">
+        <MyCoachWorkout />
       </ConnectedRoute>
     ),
   },

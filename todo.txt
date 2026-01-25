@@ -1,0 +1,23 @@
+refacto
+
+Visiteurs
+
+accueil OK 
+connexion
+inscription
+
+##############################
+
+Athletes 
+
+programme 
+monCoach 
+profile 
+
+
+
+############################## 
+
+Coaches
+
+...

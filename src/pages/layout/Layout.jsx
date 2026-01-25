@@ -17,7 +17,7 @@ export default function Layout() {
   return (
     <div className="min-h-dvh  w-vw overflow-hidden">
       <Toaster position="top-center" richColors expand={true} />
-      <main className="w-vw min-h-dvh flex max-md:flex-col md:pl-52 md:pr-3 overflow-hidden bg-background text-foreground ">
+      <main className="w-vw min-h-dvh flex max-md:flex-col md:pl-44 md:pr-3 overflow-hidden bg-background text-foreground ">
         <Navbar />
         <div className="flex flex-col w-full">
           <Title

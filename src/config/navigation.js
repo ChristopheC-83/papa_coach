@@ -75,16 +75,16 @@ export const COACH_LINKS = {
       path: "/coach/resources",
       icon: FiClipboard,
     },
+    {
+      label: "Mon Programme",
+      path: "/coach/workout",
+      icon: FiCalendar,
+    },
     // On rappelle les liens "persos" du coach ici pour qu'il puisse y accéder
     {
       label: "Mon Profil",
-      path: "/athlete/profile",
+      path: "/coach/profile",
       icon: FiUser,
-    },
-    {
-      label: "Mon Programme",
-      path: "/athlete/workout",
-      icon: FiCalendar,
     },
   ],
 };
