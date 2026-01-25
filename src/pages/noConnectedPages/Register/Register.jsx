@@ -1,6 +1,5 @@
 import InputField from "@/components/custom/InputField";
 import TitlePage from "@/components/custom/TitlePage";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { signUpUser } from "@/services/auth";
 import { useUserStore } from "@/store/user/useUserStore";
@@ -9,7 +8,7 @@ import React, { useState } from "react";
 import { FiActivity } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import RoleSelector from "./RoleSelector";
+import RoleSelector from "./components/RoleSelector";
 
 export default function Register() {
   // feedback UX

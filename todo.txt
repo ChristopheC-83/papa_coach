@@ -3,8 +3,8 @@ refacto
 Visiteurs
 
 accueil OK 
-connexion
-inscription
+connexion OK
+inscription OK
 
 ##############################
 
@@ -20,4 +20,10 @@ profile
 
 Coaches
 
+toutes les pages existent ?
+profil, commun à Athletes 
+entrainement, non , car coach s'entraine seul 
+il peut se créer son entrinament.
+le coach est il son propre coach ?
+un athlete peut il modifier ou se créer son entrainement ?
 ...
