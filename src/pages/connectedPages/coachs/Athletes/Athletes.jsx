@@ -1,6 +1,5 @@
 import React from "react";
 import { useCoachTeam } from "@/customHooks/useCoachTeam";
-import { useUserStore } from "@/store/user/useUserStore";
 import TitlePage from "@/components/custom/TitlePage";
 import {
   FiUsers,
@@ -11,11 +10,9 @@ import {
   FiX,
   FiUserPlus,
 } from "react-icons/fi";
-import { toast } from "sonner";
+import { ModalInvitation } from "./components/ModalInvitation";
 
 export default function Athletes() {
-  const { user } = useUserStore();
-  // On récupère bien les deux listes filtrées par le hook
   const {
     activeAthletes,
     pendingAthletes,
@@ -23,13 +20,6 @@ export default function Athletes() {
     handleAccept,
     handleRemove,
   } = useCoachTeam();
-
-  const copyCode = () => {
-    if (user?.invitation_code) {
-      navigator.clipboard.writeText(user.invitation_code);
-      toast.success("Code copié !");
-    }
-  };
 
   if (loading)
     return (
@@ -40,24 +30,9 @@ export default function Athletes() {
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-5 p-4 space-y-8 pb-20">
-      <TitlePage titlePage="Ma Team" iconPage={<FiUsers />} />
-
-      {/* --- SECTION : MON CODE (Le Recrutement) --- */}
-      <div className="bg-card border border-muted rounded-3xl p-6 flex flex-col items-center text-center shadow-sm">
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-2">
-          Ton code d'invitation
-        </span>
-        <div className="flex items-center gap-4 bg-secondary/50 px-6 py-3 rounded-2xl border border-muted">
-          <code className="text-3xl font-black tracking-tighter text-primary">
-            {user?.invitation_code || "---"}
-          </code>
-          <button
-            onClick={copyCode}
-            className="p-2 bg-primary text-white rounded-lg active:scale-90 transition-all shadow-md shadow-primary/20"
-          >
-            <FiCopy size={18} />
-          </button>
-        </div>
+      <div className="w-full flex justify-between">
+        <TitlePage titlePage="Ma Team" iconPage={<FiUsers />} />
+        <ModalInvitation />
       </div>
 
       {/* --- SECTION : DEMANDES EN ATTENTE (Le sas d'entrée) --- */}

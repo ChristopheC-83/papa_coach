@@ -12,7 +12,7 @@ export default function ConnectedRoute({ children, allowedRole }) {
   }
   const userRole = user.role?.toLowerCase();
 
-  console.log("Rôle actuel:", userRole, "Attendu:", allowedRole);
+  // console.log("Rôle actuel:", userRole, "Attendu:", allowedRole);
 
   if (allowedRole === "coach" && userRole !== "coach") {
     console.warn("Accès interdit : Coach uniquement.");

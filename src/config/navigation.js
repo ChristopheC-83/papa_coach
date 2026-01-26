@@ -48,28 +48,24 @@ export const COACH_LINKS = {
       icon: FiUsers,
     },
     {
-      label: "Préparations",
-      path: "/coach/prepareWorkout",
-      icon: FiCalendar,
-    },
-  ],
-  // Ce qui est rangé dans la Sheet "Outils"
-  tools: [
-    {
-      label: "Liens d'invitation",
-      path: "/coach/invitation",
-      icon: FiLink2,
-    },
-    {
-      label: "Biographie",
-      path: "/coach/biography",
-      icon: FiPenTool,
-    },
-    {
       label: "Création Séances",
       path: "/coach/typicals_sessions",
       icon: FiClipboard,
     },
+    // {
+    //   label: "Préparations",
+    //   path: "/coach/prepareWorkout",
+    //   icon: FiCalendar,
+    // },
+  ],
+  // Ce qui est rangé dans la Sheet "Outils"
+  tools: [
+    // {
+    //   label: "Liens d'invitation",
+    //   path: "/coach/invitation",
+    //   icon: FiLink2,
+    // },
+
     {
       label: "Ressources",
       path: "/coach/resources",
@@ -80,10 +76,15 @@ export const COACH_LINKS = {
       path: "/coach/workout",
       icon: FiCalendar,
     },
+    {
+      label: "Biographie",
+      path: "/coach/biography",
+      icon: FiPenTool,
+    },
     // On rappelle les liens "persos" du coach ici pour qu'il puisse y accéder
     {
-      label: "Mon Profil",
-      path: "/coach/profile",
+      label: "Profil",
+      path: "/athlete/profile",
       icon: FiUser,
     },
   ],

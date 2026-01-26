@@ -3,6 +3,7 @@ import { useUserStore } from "@/store/user/useUserStore";
 import { FiCopy, FiCheck, FiShare2 } from "react-icons/fi";
 import TitlePage from "@/components/custom/TitlePage";
 import { toast } from "sonner";
+import { DialogTitle } from "@/components/ui/dialog";
 
 export default function Invitations() {
   const user = useUserStore((state) => state.user);
@@ -23,8 +24,9 @@ export default function Invitations() {
 
   return (
     <div className="w-full max-w-md mx-auto mt-5 p-4">
-      <TitlePage titlePage="Inviter un Athlète" iconPage={<FiShare2 />} />
-
+      <DialogTitle>
+        <TitlePage titlePage="Inviter un Athlète" iconPage={<FiShare2 />} />
+      </DialogTitle>
       <div className="mt-10 bg-card border-2 border-dashed border-primary/20 rounded-3xl p-8 text-center">
         <p className="text-muted-foreground text-sm mb-4">
           Partage ce code avec tes futurs élèves. Ils devront le saisir lors de
@@ -51,7 +53,9 @@ export default function Invitations() {
       </div>
 
       <div className="mt-8 space-y-4">
-        <h3 className="font-bold text-lg">Comment ça marche ?</h3>
+        <h3 className="font-bold text-lg text-muted-foreground">
+          Comment ça marche ?
+        </h3>
         <ul className="text-sm text-muted-foreground space-y-2">
           <li>1. Envoie ce code à ton athlète.</li>
           <li>2. L'athlète crée son compte sur ARC.</li>

@@ -11,8 +11,8 @@ inscription OK
 Athletes 
 
 programme OK
-monCoach 
-profile 
+monCoach OK
+profile OK
 
 
 
