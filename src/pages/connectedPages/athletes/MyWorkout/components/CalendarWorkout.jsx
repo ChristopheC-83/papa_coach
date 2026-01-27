@@ -11,7 +11,6 @@ import {
 } from "date-fns";
 import CalendarWorkoutHeader from "./CalendarWorkoutHeader";
 
-
 export default function CalendarWorkout({
   currentMonth,
   setCurrentMonth,
@@ -22,7 +21,7 @@ export default function CalendarWorkout({
   recos,
 }) {
   const weekDays = ["L", "M", "M", "J", "V", "S", "D"];
-  
+
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });

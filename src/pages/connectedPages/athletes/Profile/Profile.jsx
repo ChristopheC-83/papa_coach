@@ -36,7 +36,7 @@ export default function Profile() {
 
           <div className="max-md:hidden w-full max-w-md flex flex-col gap-4">
             {/* --- ACTIONS --- */}
-            {user?.role === "coach" && (<CoachCode />)}
+            {user?.role === "coach" && <CoachCode />}
             <Logout logout={logout} />
           </div>
         </div>

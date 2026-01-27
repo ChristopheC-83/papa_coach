@@ -11,6 +11,7 @@ import {
   FiUserPlus,
 } from "react-icons/fi";
 import { ModalInvitation } from "./components/ModalInvitation";
+import { Link } from "react-router-dom";
 
 export default function Athletes() {
   const {
@@ -111,9 +112,12 @@ export default function Athletes() {
                 </div>
 
                 <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="p-3 bg-secondary rounded-xl hover:bg-primary hover:text-white transition-all">
+                  <Link
+                    to={`/coach/prepare/${athlete.id}`}
+                    className="p-3 bg-secondary rounded-xl hover:bg-primary hover:text-white transition-all flex items-center justify-center"
+                  >
                     <FiExternalLink size={18} />
-                  </button>
+                  </Link>
                   <button
                     onClick={() => {
                       if (confirm(`Retirer ${athlete.username} de ta team ?`))

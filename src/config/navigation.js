@@ -88,5 +88,6 @@ export const COACH_LINKS = {
       icon: FiUser,
     },
   ],
+
 };
 

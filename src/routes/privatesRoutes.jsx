@@ -10,6 +10,7 @@ import PrepareWorkout from "@/pages/connectedPages/coachs/PrepareWorkout/Prepare
 import Resources from "@/pages/connectedPages/coachs/Resources/Resources";
 import TypicalsSessions from "@/pages/connectedPages/coachs/TypicalSessions/TypicalsSessions";
 import ConnectedRoute from "@/pages/routeGuards/ConnectedRoute";
+import { Route } from "react-router-dom";
 
 
 export const privateRoutes = [
@@ -80,7 +81,7 @@ export const privateRoutes = [
     ),
   },
   {
-    path: "coach/prepareWorkout",
+    path: "coach/prepare/:athleteId", // L'ID est directement ici
     element: (
       <ConnectedRoute allowedRole="coach">
         <PrepareWorkout />

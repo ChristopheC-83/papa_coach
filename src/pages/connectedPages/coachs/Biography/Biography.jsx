@@ -27,7 +27,7 @@ export default function Biography() {
     <section className="w-full max-w-lg mx-auto mt-5 p-4 space-y-8 pb-24">
       <div className="space-y-8">
         {/* 1. LA BIOGRAPHY (Le texte libre) */}
-        <section className="bg-card border border-muted rounded-[2.5rem] p-8">
+        <section className="bg-card border border-muted rounded-3xl p-8">
           <h3 className="font-black uppercase italic text-[10px] mb-4 tracking-widest text-primary">
             Ma Philosophie
           </h3>
@@ -46,7 +46,7 @@ export default function Biography() {
         </section>
 
         {/* 2. LA SPÉCIALISATION (Visuelle, pas de texte libre !) */}
-        <section className="bg-card border border-muted rounded-[2.5rem] p-8">
+        <section className="bg-card border border-muted rounded-3xl p-8">
           <Spe
             title={"Mes Sports de prédilections"}
             description={

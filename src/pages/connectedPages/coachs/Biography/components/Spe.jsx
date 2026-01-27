@@ -5,7 +5,7 @@ export default function Spe({ title, description, user, idName, datasArray }) {
   const selectedIds = user?.[idName] || [];
 
   return (
-    <section className="bg-card border border-muted rounded-[2.5rem] p-8">
+    <section className="bg-card border border-muted rounded-3xl p-8 mb-5">
       <h3 className="font-black uppercase italic text-[10px] mb-2 tracking-widest text-primary text-center">
         {title}
       </h3>
