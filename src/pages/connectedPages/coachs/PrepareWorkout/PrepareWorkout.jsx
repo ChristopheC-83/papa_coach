@@ -186,7 +186,7 @@ export default function PrepareWorkout() {
                 </p>
                 <button
                   onClick={() => setIsCreating(true)}
-                  className="mx-auto flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/20 active:scale-95 transition-all"
+                  className="mx-auto flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/20 active:scale-95 transition-all text-shadow"
                 >
                   <FiPlus /> CRÉER UN ENTRAÎNEMENT
                 </button>

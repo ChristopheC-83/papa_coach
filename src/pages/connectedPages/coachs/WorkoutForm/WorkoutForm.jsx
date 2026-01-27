@@ -7,7 +7,7 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
     tag: "Endurance",
     duration: "",
     date: initialDate,
-    steps: [{ title: "Échauffement", detail: "", highlight: false }],
+    steps: [{ title: "", detail: "", highlight: false }],
   });
 
   // Ajouter un nouveau bloc vide
@@ -35,27 +35,31 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
     <div className="space-y-6 p-4 bg-card rounded-3xl border border-muted">
       {/* --- INFOS GÉNÉRALES --- */}
       <div className="grid grid-cols-2 gap-4">
-        <input
-          placeholder="Nom de la séance..."
-          className="col-span-2 bg-secondary/20 p-4 rounded-2xl font-bold"
-          value={workout.title}
-          onChange={(e) => setWorkout({ ...workout, title: e.target.value })}
-        />
         <select
-          className="bg-secondary/20 p-4 rounded-2xl text-sm text-pirmary"
+          className="bg-secondary/20 p-4 rounded-2xl text-sm text-primary"
           value={workout.tag}
           onChange={(e) => setWorkout({ ...workout, tag: e.target.value })}
         >
-          <option>Endurance</option>
-          <option>Intensité</option>
-          <option>Récupération</option>
-          <option>Compétition</option>
+          <option className="bg-background text-foreground">Endurance</option>
+          <option className="bg-background text-foreground">Intensité</option>
+          <option className="bg-background text-foreground">
+            Récupération
+          </option>
+          <option className="bg-background text-destructive">
+            Compétition
+          </option>
         </select>
         <input
           placeholder="Durée (ex: 1h15)"
           className="bg-secondary/20 p-4 rounded-2xl text-sm"
           value={workout.duration}
           onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
+        />
+        <input
+          placeholder="Nom de la séance..."
+          className="col-span-2 bg-secondary/20 p-4 rounded-2xl font-bold"
+          value={workout.title}
+          onChange={(e) => setWorkout({ ...workout, title: e.target.value })}
         />
       </div>
 
@@ -108,15 +112,15 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
           onClick={addStep}
           className="w-full py-4 border-2 border-dashed border-muted rounded-2xl text-muted-foreground flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all"
         >
-          <FiPlus /> Ajouter un bloc
+          <FiPlus  /> Ajouter un bloc
         </button>
       </div>
 
       <button
         onClick={() => onSubmit(workout)}
-        className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2"
+        className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 text-shadow"
       >
-        <FiSave /> ENREGISTRER LA SÉANCE
+        <FiSave className="png-shadow" /> ENREGISTRER LA SÉANCE
       </button>
     </div>
   );
