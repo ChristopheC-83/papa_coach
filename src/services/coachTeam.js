@@ -17,7 +17,7 @@ export const getMyAthletes = async (coachId) => {
 export const getAthleteById = async (athleteId) => {
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, username, bio, email, link_status")
+    .select("*")
     .eq("id", athleteId)
     .single();
 

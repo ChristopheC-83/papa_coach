@@ -42,7 +42,7 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
           onChange={(e) => setWorkout({ ...workout, title: e.target.value })}
         />
         <select
-          className="bg-secondary/20 p-4 rounded-2xl text-sm"
+          className="bg-secondary/20 p-4 rounded-2xl text-sm text-pirmary"
           value={workout.tag}
           onChange={(e) => setWorkout({ ...workout, tag: e.target.value })}
         >
