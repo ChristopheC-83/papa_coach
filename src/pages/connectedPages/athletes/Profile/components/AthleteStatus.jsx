@@ -5,7 +5,7 @@ import InfoTile from "./InfoTile";
 export default function AthleteStatus({ user, coachData }) {
   //  ajouter des sports et des niveaux
   return (
-    <section className="grid gap-4">
+    <section className="grid gap-4 w-full max-w-md">
       <InfoTile
         icon={<FiShield />}
         label="Statut du compte"
@@ -13,7 +13,7 @@ export default function AthleteStatus({ user, coachData }) {
         highlight
       />
 
-      <div className="bg-card border border-muted rounded-3xl p-5 flex items-center gap-4">
+      <div className="bg-card border border-muted rounded-3xl p-5 flex items-center gap-4 w-full max-w-md">
         <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
           <FiUser size={24} />
         </div>

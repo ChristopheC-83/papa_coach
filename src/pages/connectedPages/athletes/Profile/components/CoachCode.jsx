@@ -19,7 +19,7 @@ export default function CoachCode() {
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <div className="mt-10 bg-card border-2 border-dashed border-primary/20 rounded-3xl p-8 text-center">
+    <div className="mt-6 bg-card border-2 border-dashed border-primary/20 rounded-3xl p-8 text-center">
       <p className="text-muted-foreground text-sm mb-4">
         Partage ce code avec tes futurs élèves. Ils devront le saisir lors de
         leur inscription.

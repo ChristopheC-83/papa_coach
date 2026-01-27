@@ -13,7 +13,7 @@ export default function TrainingDay({
   selectedRace,
 }) {
   return (
-    <div className="w-md max-w-full max-md:mx-2space-y-4 animate-in fade-in slide-in-from-bottom-3 duration-700 md:mt-4">
+    <div className="w-md max-w-full max-md:mx-2 space-y-4 animate-in fade-in slide-in-from-bottom-3 duration-700 md:mt-4">
       <RelativeDate selectedDate={selectedDate} />
 
       {selectedSession ? (

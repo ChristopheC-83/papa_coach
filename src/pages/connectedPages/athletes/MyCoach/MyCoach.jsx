@@ -6,6 +6,7 @@ import { useMyCoach } from "@/customHooks/useMyCoach";
 import { useUserStore } from "@/store/user/useUserStore";
 import { useEffect } from "react";
 import { LuDumbbell } from "react-icons/lu";
+import CoachSpe from "./components/CoachSpe";
 
 export default function MyCoach() {
   const { user } = useUserStore();
@@ -66,9 +67,13 @@ export default function MyCoach() {
   }
   // CAS 3 : Coach actif (le code que tu as déjà)
   return (
-    <div className="w-full max-w-md mx-auto mt-5 p-4 space-y-8 pb-24">
+    <div className="w-full md:w-fit max-w-4xl mx-auto mt-5 p-4 space-y-6 pb-24 ">
       <TitlePage titlePage="Mon Coach" iconPage={<LuDumbbell />} />
-      <CoachCard coach={coachData} onUnlink={handleUnlink} />
+
+      <div className="w-full mx-auto flex max-lg:flex-col justify-between gap-4 max-lg:items-center">
+        <CoachCard coach={coachData} onUnlink={handleUnlink} />
+        <CoachSpe coach={coachData} />
+      </div>
     </div>
   );
 }

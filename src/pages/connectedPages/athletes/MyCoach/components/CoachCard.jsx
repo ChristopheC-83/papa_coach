@@ -5,13 +5,14 @@ import {
   FiAlertTriangle,
   FiX,
 } from "react-icons/fi";
+import CoachSpe from "./CoachSpe";
 
 export default function CoachCard({ coach, onUnlink }) {
   const [showConfirm, setShowConfirm] = useState(false);
   console.log(coach);
 
   return (
-    <div className="w-full max-w-md mx-auto mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full max-w-md mx-auto mt-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="bg-card rounded-3xl p-6 shadow-sm border border-muted relative overflow-hidden">
         {/* L'overlay de confirmation (La fameuse Popup) */}
         {showConfirm && (

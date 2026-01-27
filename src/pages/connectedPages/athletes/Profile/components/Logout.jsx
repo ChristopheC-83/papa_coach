@@ -5,10 +5,10 @@ import {
 
 export default function Logout({ logout }) {
   return (
-    <footer className="pt-4">
+    <footer className="pt-4 w-full max-w-md">
       <button
         onClick={logout}
-        className="w-full py-4 border-2 border-destructive/20 text-destructive rounded-2xl font-black uppercase italic tracking-widest text-xs hover:bg-destructive hover:text-white transition-all flex items-center justify-center gap-2"
+        className="w-full max-w-md py-4 border-2 border-destructive/20 text-destructive rounded-2xl font-black uppercase italic tracking-widest text-xs hover:bg-destructive hover:text-white transition-all flex items-center justify-center gap-2 "
       >
         <FiLogOut /> Déconnexion
       </button>

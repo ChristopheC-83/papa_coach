@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 export const getCoachById = async (coachId) => {
   const { data, error } = await supabase
     .from("profiles")
-    .select("username, bio, role, email")
+    .select("*")
     .eq("id", coachId)
     .single();
 

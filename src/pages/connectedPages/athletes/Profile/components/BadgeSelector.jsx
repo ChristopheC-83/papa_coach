@@ -40,7 +40,7 @@ export default function BadgeSelector({
   };
 
   return (
-    <section className="bg-card border border-muted rounded-3xl px-3 py-6 shadow-sm">
+    <section className="bg-card border border-muted rounded-3xl px-3 py-6 shadow-sm w-full max-w-md ">
       <h3 className="text-center mb-6 font-black uppercase italic text-sm tracking-widest">
         {title}
       </h3>

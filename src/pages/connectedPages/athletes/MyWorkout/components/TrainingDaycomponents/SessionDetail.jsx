@@ -4,7 +4,7 @@ import {  FiCheckCircle } from "react-icons/fi";
 import StepDetail from "./StepDetail";
 export default function SessionDetail({ selectedSession }) {
   return (
-    <div className="bg-card border-2 border-primary/5 rounded-[2.5rem] p-6 shadow-xl space-y-6">
+    <div className="bg-card border-2 border-primary/5 rounded-3xl p-6 shadow-xl space-y-6">
       {/*  Entete */}
       <div className="flex justify-between items-start">
         <div className="space-y-1">

@@ -36,7 +36,7 @@ export default function CalendarWorkout({
         setCurrentMonth={setCurrentMonth}
       />
 
-      <div className="bg-card border border-muted rounded-[2.5rem] p-5 shadow-sm">
+      <div className="bg-card border border-muted rounded-3xl p-5 shadow-sm">
         <div className="grid grid-cols-7 mb-4">
           {weekDays.map((day, index) => (
             <div

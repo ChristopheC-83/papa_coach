@@ -33,7 +33,7 @@ export default function AthleteName({ user }) {
   };
 
   return (
-    <section className="bg-card border border-muted rounded-[2.5rem] p-8 shadow-sm text-center space-y-4">
+    <section className="bg-card border border-muted rounded-3xl p-8 shadow-sm text-center space-y-4 mb-5 w-full max-w-md">
       <div className="relative w-24 h-24 bg-secondary rounded-full mx-auto flex items-center justify-center border-4 border-background shadow-xl">
         <span className="text-3xl font-black text-primary">
           {user?.username?.charAt(0).toUpperCase()}
