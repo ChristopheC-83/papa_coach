@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { format, isSameDay } from "date-fns";
 import { fr } from "date-fns/locale";
-import {
-  FiArrowLeft,
-} from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
 
-// Tes services et composants
+// Services et composants
 import { getAthleteById } from "@/services/coachTeam";
 import { workoutService } from "@/services/workouts";
 import { AVAILABLE_SPORTS } from "@/constants/Profile/sports";
 import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout";
 import { useUserStore } from "@/store/user/useUserStore";
+
+// Tes sous-composants découpés
 import SelectectedAthlete from "../WorkoutForm/components/SelectectedAthlete";
 import ExistingsWorkout from "../WorkoutForm/components/ExistingsWorkout";
 import AtCreateWorkout from "../WorkoutForm/components/AtCreateWorkout";
@@ -27,65 +27,111 @@ export default function PrepareWorkout() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isCreating, setIsCreating] = useState(false);
-
-  // Séances (on les initialise vides)
   const [trainings, setTrainings] = useState([]);
 
-  // --- CHARGEMENT INITIAL (L'athlète) ---
+  // --- 1. CHARGEMENT DE L'ATHLÈTE (Pour sortir du mode Loading) ---
   useEffect(() => {
-    async function loadData() {
+    async function loadAthlete() {
+      if (!athleteId) return;
       try {
+        setLoading(true);
         const athleteData = await getAthleteById(athleteId);
         setAthlete(athleteData);
       } catch (err) {
-        console.error(err);
+        console.error("Erreur chargement athlète:", err);
       } finally {
-        setLoading(false);
+        setLoading(false); // <--- Libère l'affichage
       }
     }
-    loadData();
+    loadAthlete();
   }, [athleteId]);
 
-  // --- LOGIQUE : TROUVER LA SÉANCE DU JOUR ---
-  const existingWorkout = trainings.find((t) =>
-    isSameDay(new Date(t.date), selectedDate),
-  );
+  // --- 2. CHARGEMENT DES SÉANCES (Indépendant du loading de la page) ---
+  useEffect(() => {
+    async function fetchWorkouts() {
+      if (!athleteId || loading) return;
+      try {
+        const start = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth(),
+          1,
+        );
+        const end = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth() + 1,
+          0,
+        );
 
-  // --- HANDLERS ---
-  const handleCreateWorkout = async (formData) => {
+        const data = await workoutService.getAthleteProgram(
+          athleteId,
+          start,
+          end,
+        );
+        setTrainings(data);
+      } catch (err) {
+        console.error("Erreur fetch workouts:", err);
+      }
+    }
+    fetchWorkouts();
+  }, [athleteId, currentMonth, loading]);
+
+  // --- 3. HANDLERS (CRUD) ---
+
+  // Sauvegarde (Création OU Modification)
+  const handleSaveWorkout = async (formData, existingId) => {
     try {
-      // Appel au service (on rajoute les IDs manquants)
-      const newWorkout = await workoutService.createWorkout({
-        ...formData,
-        athlete_id: athleteId,
-        coach_id: user.id,
-      });
-
-      console.log("newWorkout :", newWorkout);
-
-      setTrainings([...trainings, newWorkout]);
+      let result;
+      if (existingId) {
+        // MODE UPDATE
+        result = await workoutService.updateWorkout(existingId, formData);
+        setTrainings(trainings.map((t) => (t.id === existingId ? result : t)));
+      } else {
+        // MODE CREATE
+        result = await workoutService.createWorkout({
+          ...formData,
+          athlete_id: athleteId,
+          coach_id: user.id,
+        });
+        setTrainings([...trainings, result]);
+      }
       setIsCreating(false);
     } catch (error) {
-      alert("Erreur lors de la création");
+      alert("Erreur de sauvegarde");
       console.error("Détails :", error.message);
     }
   };
 
-  if (loading)
+  // Suppression
+  const handleDeleteWorkout = async (id) => {
+    try {
+      await workoutService.deleteWorkout(id);
+      setTrainings(trainings.filter((t) => t.id !== id));
+    } catch (error) {
+      alert("Erreur de suppression");
+      console.error("Détails :", error.message);
+    }
+  };
+
+  // --- 4. LOGIQUE DE VUE ---
+  const existingWorkout = trainings.find((t) =>
+    isSameDay(new Date(t.date), selectedDate),
+  );
+
+  const sports = (athlete?.favorite_sports || [])
+    .map((id) => AVAILABLE_SPORTS.find((s) => s.id === id))
+    .filter(Boolean);
+
+  if (loading) {
     return (
       <div className="p-10 text-center animate-pulse text-primary font-bold">
         Initialisation du chantier...
       </div>
     );
-
-  // Calcul des sports favoris pour le header
-  const sports = (athlete?.favorite_sports || [])
-    .map((id) => AVAILABLE_SPORTS.find((s) => s.id === id))
-    .filter(Boolean);
+  }
 
   return (
-    <div className="w-full max-w-md mx-auto mt-5 space-y-6 pb-24 ">
-      {/* 1. NAVIGATION & RETOUR */}
+    <div className="w-full max-w-md mx-auto mt-5 space-y-6 pb-24 px-2">
+      {/* NAVIGATION */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-all text-xs font-bold uppercase tracking-widest cursor-pointer"
@@ -93,11 +139,10 @@ export default function PrepareWorkout() {
         <FiArrowLeft /> Ma Team
       </button>
 
-      {/* 2. HEADER ATHLÈTE */}
-
+      {/* HEADER ATHLÈTE */}
       <SelectectedAthlete athlete={athlete} sports={sports} />
 
-      {/* 3. CALENDRIER */}
+      {/* CALENDRIER */}
       <div className="flex justify-center">
         <CalendarWorkout
           currentMonth={currentMonth}
@@ -105,32 +150,35 @@ export default function PrepareWorkout() {
           selectedDate={selectedDate}
           setSelectedDate={(date) => {
             setSelectedDate(date);
-            setIsCreating(false); // On ferme le formulaire si on change de jour
+            setIsCreating(false);
           }}
           trainings={trainings}
-          races={[]} // À hydrater plus tard
-          recos={[]} // À hydrater plus tard
+          races={[]} // À connecter plus tard
+          recos={[]} // À connecter plus tard
         />
       </div>
 
-      {/* 4. ZONE D'ACTION (La séance du jour) */}
-      <div className="space-y-4 pt-2 w-full max-w-md mx-auto">
+      {/* ZONE D'ACTION */}
+      <div className="space-y-4 pt-2">
         <div className="flex items-center justify-between px-1">
           <h2 className="text-lg font-black uppercase italic tracking-tighter">
             {format(selectedDate, "eeee dd MMMM", { locale: fr })}
           </h2>
         </div>
 
-        {existingWorkout ? (
-          /* --- SÉANCE TROUVÉE --- */
-          <ExistingsWorkout existingWorkout={existingWorkout} />
+        {existingWorkout && !isCreating ? (
+          <ExistingsWorkout
+            existingWorkout={existingWorkout}
+            onDelete={handleDeleteWorkout}
+            onEdit={() => setIsCreating(true)}
+          />
         ) : (
-          /* --- AUCUNE SÉANCE --- */
           <AtCreateWorkout
             isCreating={isCreating}
             setIsCreating={setIsCreating}
             selectedDate={selectedDate}
-            handleCreateWorkout={handleCreateWorkout}
+            existingWorkout={existingWorkout} // Passé pour l'édition
+            handleCreateWorkout={handleSaveWorkout} // Le handler universel
           />
         )}
       </div>

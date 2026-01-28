@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import { FiPlus, FiTrash2, FiStar, FiSave } from "react-icons/fi";
 
-export default function WorkoutForm({ initialDate, onSubmit }) {
+export default function WorkoutForm({
+  initialDate,
+  onSubmit,
+  onCancel,
+  initialData,
+}) {
   const [workout, setWorkout] = useState({
-    title: "",
-    tag: "",
-    duration: "",
-    date: initialDate,
-    steps: [{ title: "", detail: "", highlight: false }],
+    title: initialData?.title || "",
+    tag: initialData?.tag || "Endurance",
+    duration: initialData?.duration || "",
+    date: initialData?.date || initialDate,
+    steps: initialData?.steps || [
+      { title: "Échauffement", detail: "", highlight: false },
+    ],
   });
 
   // Ajouter un nouveau bloc vide
@@ -29,6 +36,11 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
   const removeStep = (index) => {
     const newSteps = workout.steps.filter((_, i) => i !== index);
     setWorkout({ ...workout, steps: newSteps });
+  };
+
+  const handleSubmit = () => {
+    // Si on a un ID dans initialData, on passe l'ID pour savoir que c'est un UPDATE
+    onSubmit(workout, initialData?.id);
   };
 
   return (
@@ -110,17 +122,25 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
 
         <button
           onClick={addStep}
-          className="w-full py-4 border-2 border-dashed border-muted rounded-2xl text-muted-foreground flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all"
+          className="w-full py-4 border-2 border-dashed border-muted rounded-2xl text-muted-foreground flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all cursor-pointer"
         >
-          <FiPlus  /> Ajouter un bloc
+          <FiPlus /> Ajouter un bloc
         </button>
       </div>
 
       <button
-        onClick={() => onSubmit(workout)}
-        className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 text-shadow"
+        onClick={handleSubmit}
+        className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 text-shadow cursor-pointer hover:bg-primary/80 transition-all"
       >
-        <FiSave className="png-shadow" /> ENREGISTRER LA SÉANCE
+        <FiSave className="png-shadow" />
+        {initialData ? "METTRE À JOUR" : "SAUVEGARDER LA SÉANCE"}
+      </button>
+      <button
+        onClick={onCancel}
+        type="button"
+        className="w-full py-4  rounded-2xl font-black  shadow-primary/30 flex items-center justify-center gap-2 bg-secondary text-foreground cursor-pointer hover:bg-secondary/80 transition-all"
+      >
+        ANNULER
       </button>
     </div>
   );

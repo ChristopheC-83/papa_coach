@@ -2,8 +2,15 @@ import React from 'react'
 import {
   FiPlus,
 } from "react-icons/fi";
+import WorkoutForm from '../WorkoutForm';
 
-export default function AtCreateWorkout({ isCreating , setIsCreating, selectedDate, handleCreateWorkout }) {
+export default function AtCreateWorkout({
+  isCreating,
+  setIsCreating,
+  selectedDate,
+  handleCreateWorkout,
+  existingWorkout,
+}) {
   return (
     <div className="space-y-4">
       {!isCreating ? (
@@ -24,6 +31,7 @@ export default function AtCreateWorkout({ isCreating , setIsCreating, selectedDa
             initialDate={selectedDate}
             onSubmit={handleCreateWorkout}
             onCancel={() => setIsCreating(false)}
+            initialData={existingWorkout} // <--- ON INJECTE LES INFOS ICI
           />
         </div>
       )}
