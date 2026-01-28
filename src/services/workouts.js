@@ -1,6 +1,5 @@
 import { supabase } from "@/lib/supabase";
 
-
 /**
  * Formate une date JS en string YYYY-MM-DD pour Supabase
  * Évite les décalages de fuseaux horaires du .toISOString()
@@ -71,4 +70,33 @@ export const workoutService = {
     if (error) throw error;
     return true;
   },
+};
+
+/**
+ * Enregistre le débriefing d'un athlète
+ * @param {string} workoutId - L'ID de la séance
+ * @param {object} feedbackData - Objet contenant rpe et athlete_feedback
+ */
+// services/workouts.js
+
+export const submitWorkoutFeedback = async (workoutId, payload) => {
+  console.log("🚀 Payload envoyé à Supabase pour l'ID", workoutId, ":", payload);
+
+  const { data, error } = await supabase
+    .from("workouts")
+    .update({
+      rpe: payload.rpe,
+      athlete_feedback: payload.athlete_feedback,
+      is_completed: payload.is_completed, 
+      completed_at: payload.completed_at,
+    })
+    .eq("id", workoutId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("❌ Erreur Supabase Feedback:", error.message);
+    throw error;
+  }
+  return data;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import TitlePage from "@/components/custom/TitlePage";
 import { FiCalendar } from "react-icons/fi";
@@ -56,6 +57,18 @@ export default function MyWorkout() {
   const selectedRace = null;
   const selectedReco = null;
 
+  // On isole la fonction de chargement
+  async function refreshData() {
+    const start = startOfMonth(currentMonth);
+    const end = endOfMonth(currentMonth);
+    const data = await workoutService.getAthleteProgram(user.id, start, end);
+    setTrainings(data);
+  }
+
+  useEffect(() => {
+    refreshData();
+  }, [currentMonth]);
+
   return (
     <div className="w-full md:w-fit max-w-4xl mx-auto mt-5 p-4 space-y-6 pb-24 ">
       <TitlePage titlePage="Planning" iconPage={<FiCalendar />} />
@@ -82,7 +95,7 @@ export default function MyWorkout() {
             selectedRace={selectedRace}
             selectedReco={selectedReco}
             // On peut ajouter ici une fonction de refresh si l'athlète valide sa séance
-            onRefresh={() => setCurrentMonth(new Date(currentMonth))}
+            onRefresh={refreshData}
           />
         </div>
       )}
