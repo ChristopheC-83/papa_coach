@@ -1,119 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitlePage from "@/components/custom/TitlePage";
-import { FiCalendar,  } from "react-icons/fi";
-import {  isSameDay, subDays } from "date-fns";
+import { FiCalendar } from "react-icons/fi";
+import { isSameDay, startOfMonth, endOfMonth } from "date-fns";
 import CalendarWorkout from "./components/CalendarWorkout";
 import TrainingDay from "./components/TrainingDay";
 
+// Imports réels
+import { useUserStore } from "@/store/user/useUserStore";
+import { workoutService } from "@/services/workouts";
+
 export default function MyWorkout() {
-  // --- LOGIQUE CALENDRIER ---
+  const user = useUserStore((state) => state.user);
+
+  // --- ÉTATS ---
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [trainings, setTrainings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Exemple d'entrainement et courses à remplacer par datas de supabase
+  // --- FETCH DES DONNÉES REELLES ---
+  useEffect(() => {
+    async function fetchAthleteData() {
+      if (!user?.id) return;
 
-  const racesExamples = [
-    {
-      date: new Date(new Date().setDate(new Date().getDate() - 7)),
-      location: "Nimes",
-    },
-    {
-      date: new Date(new Date().setDate(new Date().getDate() + 4)),
-      location: "Sommières",
-    },
-  ];
+      try {
+        setLoading(true);
+        // On définit la plage du mois en cours pour le fetch
+        const start = startOfMonth(currentMonth);
+        const end = endOfMonth(currentMonth);
 
-  const recoExamples = racesExamples.map((course) => {
-    return {
-      ...course, 
-      date: subDays(course.date, 1), 
-      title: `Reco : ${course.location}`, 
-    };
-  });
+        // Appel au service (On récupère les workouts)
+        const data = await workoutService.getAthleteProgram(
+          user.id,
+          start,
+          end,
+        );
+        setTrainings(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération du planning:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  const sessionsExamples = [
-    {
-      date: new Date(),
-      title: "Seuil Pyramidal",
-      tag: "Intensité",
-      duration: "1h10",
-      steps: [
-        {
-          title: "Échauffement",
-          detail: "20min footing progressif + 5 lignes droites",
-          highlight: false,
-        },
-        {
-          title: "Corps de séance",
-          detail: "2000m - 1500m - 1000m - 500m (R=2')",
-          highlight: true,
-        },
-        {
-          title: "Retour au calme",
-          detail: "10min trot très lent",
-          highlight: false,
-        },
-      ],
-    },
-    {
-      date: new Date(new Date().setDate(new Date().getDate() + 2)),
-      title: "Sortie Longue Active",
-      tag: "Endurance",
-      duration: "1h45",
-      steps: [
-        {
-          title: "Footing",
-          detail: "1h en endurance fondamentale",
-          highlight: false,
-        },
-        {
-          title: "Bloc Allure",
-          detail: "30min allure cible marathon",
-          highlight: true,
-        },
-        { title: "Fin de séance", detail: "15min souple", highlight: false },
-      ],
-    },
-  ];
+    fetchAthleteData();
+  }, [user?.id, currentMonth]); // Se relance si on change de mois ou d'utilisateur
 
-
-
-  const selectedSession = sessionsExamples.find((session) =>
-    isSameDay(session.date, selectedDate),
+  // --- LOGIQUE DE SÉLECTION ---
+  // On cherche dans le state 'trainings' chargé depuis Supabase
+  const selectedSession = trainings.find((session) =>
+    isSameDay(new Date(session.date), selectedDate),
   );
 
-  const selectedRace = racesExamples.find((race) =>
-    isSameDay(race.date, selectedDate),
-  );
-
-
-  const selectedReco = recoExamples.find((reco) =>
-    isSameDay(reco.date, selectedDate),
-  );
+  // À hydrater plus tard avec tes services de courses/recos
+  const selectedRace = null;
+  const selectedReco = null;
 
   return (
     <div className="w-full md:w-fit max-w-4xl mx-auto mt-5 p-4 space-y-6 pb-24 ">
       <TitlePage titlePage="Planning" iconPage={<FiCalendar />} />
 
-      <div className="w-full mx-auto flex max-lg:flex-col justify-between gap-4 max-lg:items-center">
-        {/*  calendrier / date picker */}
-        <CalendarWorkout
-          currentMonth={currentMonth}
-          setCurrentMonth={setCurrentMonth}
-          trainings={sessionsExamples}
-          races={racesExamples}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          recos={recoExamples}
-        />
-        {/*  la séance du jour */}
-        <TrainingDay
-          selectedDate={selectedDate}
-          selectedSession={selectedSession}
-          selectedRace={selectedRace}
-          selectedReco={selectedReco}
-        />
-      </div>
+      {loading ? (
+        <div className="flex justify-center p-20 animate-pulse font-black uppercase text-primary">
+          Synchronisation de tes efforts...
+        </div>
+      ) : (
+        <div className="w-full mx-auto flex max-lg:flex-col justify-between gap-4 max-lg:items-center">
+          <CalendarWorkout
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+            trainings={trainings} // Données réelles
+            races={[]} // À brancher sur ton service de courses
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            recos={[]}
+          />
+
+          <TrainingDay
+            selectedDate={selectedDate}
+            selectedSession={selectedSession}
+            selectedRace={selectedRace}
+            selectedReco={selectedReco}
+            // On peut ajouter ici une fonction de refresh si l'athlète valide sa séance
+            onRefresh={() => setCurrentMonth(new Date(currentMonth))}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -20,9 +20,9 @@ profile OK
 
 Coaches
 
-toutes les pages existent ?
-profil, commun à Athletes 
-entrainement, non , car coach s'entraine seul 
+toutes les pages existent ? OK
+profil, commun à Athletes  OK
+entrainement, non , car coach s'entraine seul  OK
 il peut se créer son entrinament.
 le coach est il son propre coach ?
 un athlete peut il modifier ou se créer son entrainement ?
