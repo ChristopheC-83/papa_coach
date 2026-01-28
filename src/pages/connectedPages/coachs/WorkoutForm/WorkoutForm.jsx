@@ -4,7 +4,7 @@ import { FiPlus, FiTrash2, FiStar, FiSave } from "react-icons/fi";
 export default function WorkoutForm({ initialDate, onSubmit }) {
   const [workout, setWorkout] = useState({
     title: "",
-    tag: "Endurance",
+    tag: "",
     duration: "",
     date: initialDate,
     steps: [{ title: "", detail: "", highlight: false }],
@@ -101,7 +101,7 @@ export default function WorkoutForm({ initialDate, onSubmit }) {
             <textarea
               placeholder="Détails (ex: 3x10min à 90% VMA...)"
               className="text-sm bg-transparent w-full resize-none outline-none text-muted-foreground"
-              rows={2}
+              rows={4}
               value={step.detail}
               onChange={(e) => updateStep(index, "detail", e.target.value)}
             />
