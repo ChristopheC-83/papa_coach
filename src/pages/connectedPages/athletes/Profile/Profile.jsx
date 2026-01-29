@@ -2,13 +2,13 @@
 import { useMyCoach } from "@/customHooks/useMyCoach";
 import { useUserStore } from "@/store/user/useUserStore";
 import { useEffect } from "react";
-import TitlePage from "@/components/custom/TitlePage";
-import { FiUser } from "react-icons/fi";
-import AthleteName from "./components/AthleteName";
-import AthleteStatus from "./components/AthleteStatus";
-import Logout from "./components/Logout";
 import { AVAILABLE_SPORTS } from "@/constants/Profile/sports";
 import { AVAILABLE_EXPERTISES } from "@/constants/Profile/expertises";
+import { FiUser } from "react-icons/fi";
+import TitlePage from "@/components/custom/TitlePage";
+import AthleteName from "./components/AthleteName";
+import AthleteStatus from "./components/AthleteStatus/AthleteStatus";
+import Logout from "./components/Logout";
 import BadgeSelector from "./components/BadgeSelector";
 import CoachCode from "./components/CoachCode";
 

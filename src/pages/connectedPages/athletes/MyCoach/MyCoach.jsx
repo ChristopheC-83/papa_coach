@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import TitlePage from "@/components/custom/TitlePage";
-import { FiClock, FiMail, FiUser, FiRefreshCw } from "react-icons/fi";
+import { FiClock, FiRefreshCw } from "react-icons/fi";
 import CoachCard from "./components/CoachCard";
 import LinkCoachForm from "./components/LinkCoachForm";
 import { useMyCoach } from "@/customHooks/useMyCoach";

@@ -30,7 +30,7 @@ export default function CoachSpe({ coach }) {
             {expertises.map((exp) => (
               <div
                 key={exp.id}
-                className="flex flex-col items-center justify-center gap-1 bg-primary/5 rounded-2xl px-4 py-3 min-w-[85px] border border-primary/10"
+                className="flex flex-col items-center justify-center gap-1 bg-primary/5 rounded-2xl px-4 py-3 min-w-21.25 border border-primary/10"
               >
                 <span className="text-xl">{exp.icon}</span>
                 <span className="text-[9px] font-black uppercase tracking-tighter text-primary text-center leading-none">

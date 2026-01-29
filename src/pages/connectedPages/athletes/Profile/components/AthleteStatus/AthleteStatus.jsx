@@ -1,6 +1,6 @@
 import React from "react";
 import { FiUser, FiShield, FiChevronRight } from "react-icons/fi";
-import InfoTile from "./InfoTile";
+import InfoTile from "./components/InfoTile";
 
 export default function AthleteStatus({ user, coachData }) {
   //  ajouter des sports et des niveaux
