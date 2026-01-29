@@ -3,15 +3,10 @@ import { useCoachTeam } from "@/customHooks/useCoachTeam";
 import TitlePage from "@/components/custom/TitlePage";
 import {
   FiUsers,
-  FiUserMinus,
-  FiExternalLink,
-  FiCopy,
-  FiCheck,
-  FiX,
-  FiUserPlus,
 } from "react-icons/fi";
 import { ModalInvitation } from "./components/ModalInvitation";
-import { Link } from "react-router-dom";
+import AthletesWaiting from "./components/AthletesWaiting";
+import AthletesActive from "./components/AthletesActive";
 
 export default function Athletes() {
   const {
@@ -38,41 +33,11 @@ export default function Athletes() {
 
       {/* --- SECTION : DEMANDES EN ATTENTE (Le sas d'entrée) --- */}
       {pendingAthletes.length > 0 && (
-        <div className="animate-in slide-in-from-top-4 duration-500">
-          <h3 className="text-orange-600 font-bold text-sm mb-3 flex items-center gap-2 px-1">
-            <FiUserPlus className="animate-bounce" /> Demandes en attente (
-            {pendingAthletes.length})
-          </h3>
-          <div className="space-y-3">
-            {pendingAthletes.map((athlete) => (
-              <div
-                key={athlete.id}
-                className="bg-orange-50/50 border border-orange-200 p-4 rounded-2xl flex items-center justify-between shadow-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-700">
-                    {athlete.username?.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="font-bold text-sm">{athlete.username}</span>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAccept(athlete.id)}
-                    className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 shadow-sm transition-all active:scale-95"
-                  >
-                    <FiCheck size={18} />
-                  </button>
-                  <button
-                    onClick={() => handleRemove(athlete.id)} // Remove ici fait office de "Refuser"
-                    className="p-3 bg-white border border-orange-200 text-orange-600 rounded-xl hover:bg-orange-100 transition-all active:scale-95"
-                  >
-                    <FiX size={18} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <AthletesWaiting
+          pendingAthletes={pendingAthletes}
+          handleAccept={handleAccept}
+          handleRemove={handleRemove}
+        />
       )}
 
       {/* --- SECTION : LISTE OFFICIELLE (La Team active) --- */}
@@ -93,42 +58,11 @@ export default function Athletes() {
         ) : (
           <div className="grid gap-3">
             {activeAthletes.map((athlete) => (
-              <div
+              <AthletesActive
                 key={athlete.id}
-                className="bg-card border border-muted p-4 rounded-2xl flex items-center justify-between hover:shadow-md hover:border-primary/20 transition-all group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-bold text-xl">
-                    {athlete.username?.charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <h3 className="font-bold leading-tight">
-                      {athlete.username}
-                    </h3>
-                    <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-tight">
-                      Actif
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Link
-                    to={`/coach/prepare/${athlete.id}`}
-                    className="p-3 bg-secondary rounded-xl hover:bg-primary hover:text-white transition-all flex items-center justify-center"
-                  >
-                    <FiExternalLink size={18} />
-                  </Link>
-                  <button
-                    onClick={() => {
-                      if (confirm(`Retirer ${athlete.username} de ta team ?`))
-                        handleRemove(athlete.id);
-                    }}
-                    className="p-3 bg-secondary rounded-xl hover:bg-destructive hover:text-white transition-all"
-                  >
-                    <FiUserMinus size={18} />
-                  </button>
-                </div>
-              </div>
+                athlete={athlete}
+                handleRemove={handleRemove}
+              />
             ))}
           </div>
         )}
