@@ -80,14 +80,19 @@ export const workoutService = {
 // services/workouts.js
 
 export const submitWorkoutFeedback = async (workoutId, payload) => {
-  console.log("🚀 Payload envoyé à Supabase pour l'ID", workoutId, ":", payload);
+  console.log(
+    "🚀 Payload envoyé à Supabase pour l'ID",
+    workoutId,
+    ":",
+    payload,
+  );
 
   const { data, error } = await supabase
     .from("workouts")
     .update({
       rpe: payload.rpe,
       athlete_feedback: payload.athlete_feedback,
-      is_completed: payload.is_completed, 
+      is_completed: payload.is_completed,
       completed_at: payload.completed_at,
     })
     .eq("id", workoutId)
@@ -98,5 +103,28 @@ export const submitWorkoutFeedback = async (workoutId, payload) => {
     console.error("❌ Erreur Supabase Feedback:", error.message);
     throw error;
   }
+  return data;
+};
+
+//  seulement pour le coach !
+// services/workouts.js
+export const resetWorkoutFeedback = async (workoutId, userRole) => {
+  // 1. Vérification de sécurité en amont
+  if (userRole !== 'coach') {
+    console.error("Tentative de réinitialisation non autorisée");
+    throw new Error("Seul un coach peut réinitialiser un débriefing.");
+  }
+
+  const { data, error } = await supabase
+    .from("workouts")
+    .update({
+      is_completed: null,
+      rpe: null,
+      athlete_feedback: {},
+      completed_at: null
+    })
+    .eq("id", workoutId);
+
+  if (error) throw error;
   return data;
 };
