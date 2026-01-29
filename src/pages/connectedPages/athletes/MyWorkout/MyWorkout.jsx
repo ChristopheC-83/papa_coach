@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react";
 import TitlePage from "@/components/custom/TitlePage";
 import { FiCalendar } from "react-icons/fi";
 import { isSameDay, startOfMonth, endOfMonth } from "date-fns";
-import CalendarWorkout from "./components/CalendarWorkout";
-import TrainingDay from "./components/TrainingDay";
-
-// Imports réels
 import { useUserStore } from "@/store/user/useUserStore";
 import { workoutService } from "@/services/workouts";
+import CalendarWorkout from "./components/CalendarWorkout/CalendarWorkout";
+import TrainingDay from "./components/TrainingDay/TrainingDay";
 
 export default function MyWorkout() {
   const user = useUserStore((state) => state.user);

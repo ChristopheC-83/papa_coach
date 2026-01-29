@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { FiCheck, FiX, FiMessageCircle } from "react-icons/fi";
-import FeedbackWizard from "../FeedbackWizard";
 import { submitWorkoutFeedback } from "@/services/workouts";
 import { toast } from "sonner";
-// Import de ton futur formulaire (qu'on va créer après)
-// import FeedbackForm from "./FeedbackForm";
+import FeedbackWizard from "./components/FeedbackWizard/FeedbackWizard";
+import ValidationButtons from "./components/ValidationButtons";
+import FeedBackSkipped from "./components/FeedBackSkipped";
 
 export default function ValidationZone({ workoutId, onRefresh }) {
   const [view, setView] = useState("choice"); // 'choice', 'done', 'skipped'
@@ -69,27 +68,7 @@ export default function ValidationZone({ workoutId, onRefresh }) {
   // Les deux boutons
   if (view === "choice") {
     return (
-      <div className="flex gap-3 animate-in fade-in zoom-in-95 duration-300">
-        {/* BOUTON NON RÉALISÉ */}
-        <button
-          onClick={() => setView("skipped")}
-          className="flex-1 flex flex-col items-center justify-center py-4 bg-secondary/50 text-muted-foreground rounded-3xl hover:bg-destructive/10 hover:text-destructive transition-all group"
-        >
-          <FiX className="text-xl mb-1 group-active:scale-75 transition-transform" />
-          <span className="text-[10px] font-black uppercase tracking-widest">
-            Non réalisé
-          </span>
-        </button>
-
-        {/* BOUTON RÉALISÉ */}
-        <button
-          onClick={() => setView("done")}
-          className="flex-2 flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-3xl font-black uppercase italic tracking-widest text-sm shadow-lg shadow-primary/20 active:scale-95 transition-all"
-        >
-          <FiCheck className="text-lg" />
-          Séance faite
-        </button>
-      </div>
+      <ValidationButtons setView={setView} />
     );
   }
 
@@ -109,36 +88,14 @@ export default function ValidationZone({ workoutId, onRefresh }) {
       </div>
 
       {view === "done" ? (
-        // INJECTION DU WIZARD
+        // FORMULAIRE  POUR "DONE"
         <FeedbackWizard
           onSubmit={(data) => handleDoneSubmit(data, "done")}
           onCancel={() => setView("choice")}
         />
       ) : (
-        // FORMULAIRE SIMPLIFIÉ POUR "SKIPPED"
-        <div className="space-y-4">
-          <p className="text-xs text-muted-foreground italic">
-            Sélectionne la raison principale :
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              "Blessure",
-              "Maladie",
-              "Travail",
-              "Météo",
-              "Fatigue",
-              "Autre",
-            ].map((reason) => (
-              <button
-                key={reason}
-                onClick={() => handleDoneSubmit({ reason }, "skipped")}
-                className="py-3 bg-secondary/30 hover:bg-primary/10 hover:text-primary rounded-3xl text-[10px] font-bold uppercase transition-all"
-              >
-                {reason}
-              </button>
-            ))}
-          </div>
-        </div>
+        // FORMULAIRE POUR "SKIPPED"
+        <FeedBackSkipped handleDoneSubmit={handleDoneSubmit} />
       )}
     </div>
   );

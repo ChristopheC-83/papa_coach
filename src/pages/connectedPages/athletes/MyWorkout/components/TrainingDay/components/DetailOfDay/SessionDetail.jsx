@@ -1,6 +1,5 @@
 import React from "react";
-import StepDetail from "./StepDetail";
-import GotoDebrief from "./GotoDebrief";
+import StepDetail from "./components/StepDetail";
 export default function SessionDetail({ selectedSession }) {
   return (
     <div className="bg-card border-2 border-primary/5 rounded-3xl p-6 shadow-xl space-y-6">
@@ -30,7 +29,6 @@ export default function SessionDetail({ selectedSession }) {
           <StepDetail key={index} step={step} />
         ))}
       </div>
-
     </div>
   );
 }

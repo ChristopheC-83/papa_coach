@@ -9,7 +9,7 @@ import {
   isSameMonth,
   isSameDay,
 } from "date-fns";
-import CalendarWorkoutHeader from "./CalendarWorkoutHeader";
+import CalendarWorkoutHeader from "./components/CalendarWorkoutHeader";
 
 export default function CalendarWorkout({
   currentMonth,

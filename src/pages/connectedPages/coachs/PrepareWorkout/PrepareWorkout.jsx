@@ -8,13 +8,13 @@ import { FiArrowLeft } from "react-icons/fi";
 import { getAthleteById } from "@/services/coachTeam";
 import { workoutService } from "@/services/workouts";
 import { AVAILABLE_SPORTS } from "@/constants/Profile/sports";
-import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout";
 import { useUserStore } from "@/store/user/useUserStore";
 
 // Tes sous-composants découpés
 import SelectectedAthlete from "../WorkoutForm/components/SelectectedAthlete";
 import ExistingsWorkout from "../WorkoutForm/components/ExistingsWorkout";
 import AtCreateWorkout from "../WorkoutForm/components/AtCreateWorkout";
+import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout/CalendarWorkout";
 
 export default function PrepareWorkout() {
   const { athleteId } = useParams();
