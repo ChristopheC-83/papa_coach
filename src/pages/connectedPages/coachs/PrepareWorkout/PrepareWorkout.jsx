@@ -6,7 +6,7 @@ import { FiArrowLeft } from "react-icons/fi";
 
 // Services et composants
 import { getAthleteById } from "@/services/coachTeam";
-import { workoutService } from "@/services/workouts";
+import { resetWorkoutFeedback, workoutService } from "@/services/workouts";
 import { AVAILABLE_SPORTS } from "@/constants/Profile/sports";
 import { useUserStore } from "@/store/user/useUserStore";
 
@@ -15,11 +15,13 @@ import SelectectedAthlete from "../WorkoutForm/components/SelectectedAthlete";
 import ExistingsWorkout from "../WorkoutForm/components/ExistingsWorkout";
 import AtCreateWorkout from "../WorkoutForm/components/AtCreateWorkout";
 import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout/CalendarWorkout";
+import ValidatedZone from "../../athletes/MyWorkout/components/TrainingDay/components/ValidatedZone/ValidatedZone";
 
 export default function PrepareWorkout() {
   const { athleteId } = useParams();
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
+  console.log(user)
 
   // --- ÉTATS ---
   const [athlete, setAthlete] = useState(null);
@@ -84,7 +86,9 @@ export default function PrepareWorkout() {
       if (existingId) {
         // MODE UPDATE
         result = await workoutService.updateWorkout(existingId, formData);
-        setTrainings(trainings.map((t) => (t.id === existingId ? result : t)));
+        setTrainings(
+          trainings.map((t) => (t && t.id === existingId ? result : t)),
+        );
       } else {
         // MODE CREATE
         result = await workoutService.createWorkout({
@@ -101,11 +105,38 @@ export default function PrepareWorkout() {
     }
   };
 
+  // Dans ton composant PrepareWorkout.jsx
+
+  const handleReset = async (workoutId) => {
+    // 1. Demande de confirmation (Simple mais efficace)
+    const confirmReset = window.confirm(
+      "⚠️ ATTENTION : Tu vas supprimer définitivement le débriefing de l'athlète. Cette action est irréversible. Continuer ?",
+    );
+
+    if (!confirmReset) return;
+
+    try {
+      // 2. Appel au service
+      const updatedWorkout = await resetWorkoutFeedback(workoutId, user.role);
+
+      // 3. Mise à jour de l'état local (pour que l'UI réagisse direct sans recharger la page)
+      setTrainings((prev) =>
+        prev.map((t) => (t.id === workoutId ? updatedWorkout : t)),
+      );
+
+      // Optionnel : un petit feedback visuel
+      alert("Le débriefing a été réinitialisé !");
+    } catch (error) {
+      console.error("Erreur lors du reset:", error.message);
+      alert("Erreur technique lors de la réinitialisation.");
+    }
+  };
+
   // Suppression
   const handleDeleteWorkout = async (id) => {
     try {
       await workoutService.deleteWorkout(id);
-      setTrainings(trainings.filter((t) => t.id !== id));
+      setTrainings(trainings.filter((t) => t && t.id !== id));
     } catch (error) {
       alert("Erreur de suppression");
       console.error("Détails :", error.message);
@@ -113,10 +144,10 @@ export default function PrepareWorkout() {
   };
 
   // --- 4. LOGIQUE DE VUE ---
-  const existingWorkout = trainings.find((t) =>
-    isSameDay(new Date(t.date), selectedDate),
+  const existingWorkout = trainings?.find(
+    (t) => t && t.date && isSameDay(new Date(t.date), selectedDate),
   );
-
+  
   const sports = (athlete?.favorite_sports || [])
     .map((id) => AVAILABLE_SPORTS.find((s) => s.id === id))
     .filter(Boolean);
@@ -166,20 +197,45 @@ export default function PrepareWorkout() {
           </h2>
         </div>
 
-        {existingWorkout && !isCreating ? (
-          <ExistingsWorkout
-            existingWorkout={existingWorkout}
-            onDelete={handleDeleteWorkout}
-            onEdit={() => setIsCreating(true)}
-          />
+        {existingWorkout ? (
+          <>
+            {/* SI COMPLÉTÉE : On affiche d'abord le feedback de l'athlète */}
+            {existingWorkout.is_completed !== null && (
+              <ValidatedZone
+                activeActivity={existingWorkout}
+                feedback={existingWorkout.athlete_feedback}
+              />
+            )}
+
+            {/* ENSUITE : Le détail de la séance (modifiable ou non) */}
+            {!isCreating ? (
+              <ExistingsWorkout
+                existingWorkout={existingWorkout}
+                onDelete={handleDeleteWorkout}
+                onEdit={() => setIsCreating(true)}
+              />
+            ) : (
+              <AtCreateWorkout
+                isCreating={isCreating}
+                setIsCreating={setIsCreating}
+                selectedDate={selectedDate}
+                existingWorkout={existingWorkout}
+                handleCreateWorkout={handleSaveWorkout}
+              />
+            )}
+
+            {/* BOUTON RESET (Optionnel, uniquement si complété) */}
+            {existingWorkout.is_completed !== null && (
+              <button
+                onClick={() => handleReset(existingWorkout.id)}
+                className="w-full py-3 bg-destructive/10 text-destructive rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-destructive hover:text-white transition-all mt-4 cursor-pointer"
+              >
+                ⚠️ Réinitialiser le débriefing
+              </button>
+            )}
+          </>
         ) : (
-          <AtCreateWorkout
-            isCreating={isCreating}
-            setIsCreating={setIsCreating}
-            selectedDate={selectedDate}
-            existingWorkout={existingWorkout} // Passé pour l'édition
-            handleCreateWorkout={handleSaveWorkout} // Le handler universel
-          />
+          <AtCreateWorkout />
         )}
       </div>
     </div>

@@ -27,7 +27,7 @@ export default function ExistingsWorkout({
           </div>
         </div>
 
-        {/* ACTIONS BONTONS */}
+        {/* ACTIONS BOUTONS */}
         <div className="flex gap-2">
           <button
             onClick={onEdit}

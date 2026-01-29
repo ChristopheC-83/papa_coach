@@ -52,9 +52,19 @@ export default function CalendarWorkout({
             const isSelected = isSameDay(day, selectedDate);
             const isToday = isSameDay(day, new Date());
             const isCurrentMonth = isSameMonth(day, monthStart);
-            const hasEvent = trainings.some((s) => isSameDay(s.date, day));
-            const hasRace = races.some((s) => isSameDay(s.date, day));
-            const hasReco = recos.some((s) => isSameDay(s.date, day));
+            // Changement minimal : on vérifie juste que s et s.date existent
+            const hasEvent = trainings?.some(
+              (s) => s?.date && isSameDay(new Date(s.date), day),
+            );
+            const hasRace = races?.some(
+              (s) => s?.date && isSameDay(new Date(s.date), day),
+            );
+            const hasReco = recos?.some(
+              (s) => s?.date && isSameDay(new Date(s.date), day),
+            );
+            // const hasEvent = trainings.some((s) => isSameDay(s.date, day));
+            // const hasRace = races.some((s) => isSameDay(s.date, day));
+            // const hasReco = recos.some((s) => isSameDay(s.date, day));
             // console.log(hasEvent);
 
             return (

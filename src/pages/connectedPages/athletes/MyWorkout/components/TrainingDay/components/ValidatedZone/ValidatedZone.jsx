@@ -2,8 +2,7 @@ import React from "react";
 
 import { FiX, FiCheck } from "react-icons/fi";
 
-export default function ValidatedZone({ activeActivity, feedback }) {
-  
+export default function ValidatedZone({ activeActivity, feedback = {} }) {
   console.log(activeActivity);
   const FEEDBACK_CONFIG = [
     { key: "pre_feeling", label: "Avant", color: "text-muted-foreground" },
