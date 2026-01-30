@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { FiPlus, FiTrash2, FiStar, FiSave } from "react-icons/fi";
-
+import {
+  FiPlus,
+  FiTrash2,
+  FiStar,
+  FiSave,
+  FiArrowUp,
+  FiArrowDown,
+} from "react-icons/fi";
 export default function WorkoutForm({
   initialDate,
   onSubmit,
@@ -29,6 +35,20 @@ export default function WorkoutForm({
   const updateStep = (index, field, value) => {
     const newSteps = [...workout.steps];
     newSteps[index][field] = value;
+    setWorkout({ ...workout, steps: newSteps });
+  };
+
+  // Déplacer un bloc vers le haut ou le bas
+  const moveStep = (index, direction) => {
+    const newSteps = [...workout.steps];
+    const targetIndex = direction === "up" ? index - 1 : index + 1; // Sécurité : on ne sort pas du tableau
+
+    if (targetIndex < 0 || targetIndex >= newSteps.length) return; // Swap (Échange de places)
+
+    [newSteps[index], newSteps[targetIndex]] = [
+      newSteps[targetIndex],
+      newSteps[index],
+    ];
     setWorkout({ ...workout, steps: newSteps });
   };
 
@@ -102,6 +122,22 @@ export default function WorkoutForm({
                 >
                   <FiStar fill={step.highlight ? "currentColor" : "none"} />
                 </button>
+                <div className="flex gap-1 border-r border-muted pr-2 mr-2">
+                  <button
+                    onClick={() => moveStep(index, "up")}
+                    disabled={index === 0}
+                    className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                  >
+                    <FiArrowUp size={16} />
+                  </button>
+                  <button
+                    onClick={() => moveStep(index, "down")}
+                    disabled={index === workout.steps.length - 1}
+                    className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                  >
+                    <FiArrowDown size={16} />
+                  </button>
+                </div>
                 <button
                   onClick={() => removeStep(index)}
                   className="p-2 text-destructive"
