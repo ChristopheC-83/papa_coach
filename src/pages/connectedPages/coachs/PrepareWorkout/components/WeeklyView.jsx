@@ -16,8 +16,8 @@ export default function WeeklyView({
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   return (
-    <div className="px-1 space-y-3">
-      <h3 className="text-[11px] font-black uppercase tracking-tighter text-muted-foreground italic">
+    <div className="px-1 space-y-3 mt-4">
+      <h3 className="font-black italic uppercase text-xl tracking-tighter">
         Planning Hebdo
       </h3>
 
@@ -29,7 +29,6 @@ export default function WeeklyView({
         className="w-full"
       >
         <CarouselContent className="-ml-2">
-          {" "}
           {/* On réduit l'espace entre les cartes */}
           {weekDays.map((day, idx) => {
             const isSelected = isSameDay(day, selectedDate);
@@ -40,12 +39,12 @@ export default function WeeklyView({
             return (
               <CarouselItem
                 key={idx}
-                className="pl-2 basis-1/4" // C'est ICI qu'on définit les 4 jours (1/4)
+                className="pl-2 basis-1/5" // C'est ICI qu'on définit les 4 jours (1/4)
               >
                 <button
                   onClick={() => setSelectedDate(day)}
                   className={`
-                    w-full aspect-[4/5] p-3 rounded-3xl transition-all border flex flex-col justify-between
+                    w-full aspect-4/5 p-3 rounded-3xl transition-all border flex flex-col justify-between
                     ${
                       isSelected
                         ? "bg-primary text-white border-primary shadow-lg scale-105 z-10"

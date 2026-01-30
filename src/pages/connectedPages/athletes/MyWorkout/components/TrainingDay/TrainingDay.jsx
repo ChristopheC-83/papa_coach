@@ -10,20 +10,21 @@ import ValidatedZone from "./components/ValidatedZone/ValidatedZone";
 export default function TrainingDay({
   selectedDate,
   selectedSession,
-  selectedReco,
-  selectedRace,
+  // selectedReco,
+  // selectedRace,
   onRefresh,
 }) {
-  const activeActivity = selectedSession || selectedReco || selectedRace;
+  const activeActivity = selectedSession 
   const feedback = activeActivity?.athlete_feedback || {};
+  // console.log("test:",selectedSession, selectedReco, selectedRace);
 
   return (
     <div className="w-md max-w-full max-md:mx-2 space-y-4 animate-in fade-in slide-in-from-bottom-3 duration-700 md:mt-4">
       <RelativeDate selectedDate={selectedDate} />
 
       {selectedSession && <SessionDetail selectedSession={selectedSession} />}
-      {selectedReco && <RecoDetail selectedReco={selectedReco} />}
-      {selectedRace && <RaceDetail selectedRace={selectedRace} />}
+      {/* {selectedReco && <RecoDetail selectedReco={selectedReco} />}
+      {selectedRace && <RaceDetail selectedRace={selectedRace} />} */}
       {!activeActivity && <SessionFree />}
 
       {activeActivity && (

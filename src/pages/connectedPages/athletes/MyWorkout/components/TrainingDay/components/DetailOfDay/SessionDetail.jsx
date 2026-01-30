@@ -6,10 +6,13 @@ export default function SessionDetail({ selectedSession }) {
       {/*  Entete */}
       <div className="flex justify-between items-start">
         <div className="space-y-1">
-          <span className="bg-primary/10 text-primary text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-wider">
+          <span
+            className={`bg-primary/10 text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-wider ${selectedSession.tag === "Compétition" ? "text-destructive" : "text-primary"}
+            `}
+          >
             {selectedSession.tag}
           </span>
-          <h2 className="text-2xl font-black uppercase italic tracking-tighter leading-none pt-2">
+          <h2 className={`text-2xl font-black uppercase italic tracking-tighter leading-none pt-2 ${selectedSession.tag === "Compétition" ? "text-destructive" : "text-primary"}`}>
             {selectedSession.title}
           </h2>
         </div>
@@ -17,18 +20,23 @@ export default function SessionDetail({ selectedSession }) {
           <p className="text-2xl font-black text-primary italic leading-none">
             {selectedSession.duration}
           </p>
-          <p className="text-[9px] text-muted-foreground uppercase font-bold mt-1">
-            Durée
-          </p>
+          {selectedSession.tag !== "Compétition" && (
+            <p className="text-[9px] text-muted-foreground uppercase font-bold mt-1">
+              Durée
+            </p>
+          )}
         </div>
       </div>
 
       {/*  Details entrainement */}
-      <div className="space-y-3">
-        {selectedSession.steps.map((step, index) => (
-          <StepDetail key={index} step={step} />
-        ))}
-      </div>
+      {selectedSession.tag !== "Compétition" && (
+        <div className="space-y-3">
+          {selectedSession.steps.map((step, index) => (
+            <StepDetail key={index} step={step} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+// selectedSession.tag ==="Compétition"

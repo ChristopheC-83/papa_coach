@@ -7,6 +7,7 @@ import { useUserStore } from "@/store/user/useUserStore";
 import { workoutService } from "@/services/workouts";
 import CalendarWorkout from "./components/CalendarWorkout/CalendarWorkout";
 import TrainingDay from "./components/TrainingDay/TrainingDay";
+import WeeklyView from "../../coachs/PrepareWorkout/components/WeeklyView";
 
 export default function MyWorkout() {
   const user = useUserStore((state) => state.user);
@@ -52,8 +53,8 @@ export default function MyWorkout() {
   );
 
   // À hydrater plus tard avec tes services de courses/recos
-  const selectedRace = null;
-  const selectedReco = null;
+  // const selectedRace = null;
+  // const selectedReco = null;
 
   // On isole la fonction de chargement
   async function refreshData() {
@@ -77,21 +78,29 @@ export default function MyWorkout() {
         </div>
       ) : (
         <div className="w-full mx-auto flex max-lg:flex-col justify-between gap-4 max-lg:items-center">
-          <CalendarWorkout
-            currentMonth={currentMonth}
-            setCurrentMonth={setCurrentMonth}
-            trainings={trainings} // Données réelles
-            races={[]} // À brancher sur ton service de courses
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-            recos={[]}
-          />
+          <div className="flex flex-col">
+            <CalendarWorkout
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+              trainings={trainings} // Données réelles
+              races={[]} // À brancher sur ton service de courses
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              recos={[]}
+            />
+            {/*  LA VUE HEBDO */}
+            <WeeklyView
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              trainings={trainings}
+            />
+          </div>
 
           <TrainingDay
             selectedDate={selectedDate}
             selectedSession={selectedSession}
-            selectedRace={selectedRace}
-            selectedReco={selectedReco}
+            // selectedRace={selectedRace}
+            // selectedReco={selectedReco}
             // On peut ajouter ici une fonction de refresh si l'athlète valide sa séance
             onRefresh={refreshData}
           />

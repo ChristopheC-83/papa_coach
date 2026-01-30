@@ -80,7 +80,7 @@ export default function PrepareWorkout() {
   // --- 3. HANDLERS (CRUD) ---
 
   // Sauvegarde (Création OU Modification)
-  const handleSaveWorkout = async (formData, existingId) => {
+  async function handleSaveWorkout (formData, existingId) {
     try {
       let result;
       if (existingId) {
@@ -107,7 +107,7 @@ export default function PrepareWorkout() {
 
   // Dans ton composant PrepareWorkout.jsx
 
-  const handleReset = async (workoutId) => {
+  async function handleReset(workoutId)  {
     // 1. Demande de confirmation (Simple mais efficace)
     const confirmReset = window.confirm(
       "⚠️ ATTENTION : Tu vas supprimer définitivement le débriefing de l'athlète. Cette action est irréversible. Continuer ?",
@@ -133,7 +133,7 @@ export default function PrepareWorkout() {
   };
 
   // Suppression
-  const handleDeleteWorkout = async (id) => {
+  async function handleDeleteWorkout (id)  {
     try {
       await workoutService.deleteWorkout(id);
       setTrainings(trainings.filter((t) => t && t.id !== id));

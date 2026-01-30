@@ -81,14 +81,14 @@ export default function WorkoutForm({
             Compétition
           </option>
         </select>
-        <input
+        {workout.tag !== "Compétition" && <input
           placeholder="Durée (ex: 1h15)"
           className="bg-secondary/20 p-4 rounded-2xl text-sm"
           value={workout.duration}
           onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
-        />
+        />}
         <input
-          placeholder="Nom de la séance..."
+          placeholder={workout.tag === "Compétition" ? "Nom / Lieu de la course" : "Nom de la séance..."}
           className="col-span-2 bg-secondary/20 p-4 rounded-2xl font-bold"
           value={workout.title}
           onChange={(e) => setWorkout({ ...workout, title: e.target.value })}
@@ -96,7 +96,7 @@ export default function WorkoutForm({
       </div>
 
       {/* --- LES STEPS (BLOCS) --- */}
-      <div className="space-y-4">
+      { workout.tag !== "Compétition" && <div className="space-y-4">
         <h4 className="text-[10px] font-black uppercase tracking-widest text-primary italic">
           Construction de la séance
         </h4>
@@ -162,14 +162,14 @@ export default function WorkoutForm({
         >
           <FiPlus /> Ajouter un bloc
         </button>
-      </div>
+      </div>}
 
       <button
         onClick={handleSubmit}
         className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 text-shadow cursor-pointer hover:bg-primary/80 transition-all"
       >
         <FiSave className="png-shadow" />
-        {initialData ? "METTRE À JOUR" : "SAUVEGARDER LA SÉANCE"}
+        {initialData ? "METTRE À JOUR" : "SAUVEGARDER"}
       </button>
       <button
         onClick={onCancel}
