@@ -52,9 +52,6 @@ export default function MyWorkout() {
     isSameDay(new Date(session.date), selectedDate),
   );
 
-  // À hydrater plus tard avec tes services de courses/recos
-  // const selectedRace = null;
-  // const selectedReco = null;
 
   // On isole la fonction de chargement
   async function refreshData() {
@@ -82,11 +79,9 @@ export default function MyWorkout() {
             <CalendarWorkout
               currentMonth={currentMonth}
               setCurrentMonth={setCurrentMonth}
-              trainings={trainings} // Données réelles
-              races={[]} // À brancher sur ton service de courses
+              trainings={trainings} 
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
-              recos={[]}
             />
             {/*  LA VUE HEBDO */}
             <WeeklyView

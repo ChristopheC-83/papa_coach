@@ -15,13 +15,10 @@ export default function CalendarWorkout({
   currentMonth,
   setCurrentMonth,
   trainings,
-  races,
   selectedDate,
   setSelectedDate,
-  recos,
 }) {
   const weekDays = ["L", "M", "M", "J", "V", "S", "D"];
-
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
@@ -52,46 +49,42 @@ export default function CalendarWorkout({
             const isSelected = isSameDay(day, selectedDate);
             const isToday = isSameDay(day, new Date());
             const isCurrentMonth = isSameMonth(day, monthStart);
-            // Changement minimal : on vérifie juste que s et s.date existent
-            const hasEvent = trainings?.some(
+
+            // On récupère la séance du jour
+            const dayEvent = trainings?.find(
               (s) => s?.date && isSameDay(new Date(s.date), day),
             );
-            const hasRace = races?.some(
-              (s) => s?.date && isSameDay(new Date(s.date), day),
-            );
-            const hasReco = recos?.some(
-              (s) => s?.date && isSameDay(new Date(s.date), day),
-            );
-            // const hasEvent = trainings.some((s) => isSameDay(s.date, day));
-            // const hasRace = races.some((s) => isSameDay(s.date, day));
-            // const hasReco = recos.some((s) => isSameDay(s.date, day));
-            // console.log(hasEvent);
+            const isRace = dayEvent?.tag === "Compétition";
+
+            // --- GESTION DES COULEURS (Priorité à la course) ---
+            let bgColor = "";
+            if (isSelected) {
+              bgColor = isRace
+                ? "bg-destructive/60 shadow-destructive/40"
+                : "bg-primary shadow-primary/30";
+            } else {
+              bgColor = isRace
+                ? "bg-destructive/20 text-destructive/70"
+                : "hover:bg-secondary";
+            }
 
             return (
               <button
                 key={idx}
                 onClick={() => setSelectedDate(day)}
                 className={`
-                     relative h-10 flex items-center justify-center rounded-xl text-sm transition-all
-                     ${!isCurrentMonth ? "opacity-10" : "opacity-100"}
-                     ${isSelected ? "bg-primary text-white text-shadow font-black scale-110 z-10 shadow-lg shadow-primary/30" : "hover:bg-secondary font-bold"}
-                     ${isToday && !isSelected ? "border border-primary text-primary" : ""}
-                   `}
+                    relative h-10 flex items-center justify-center rounded-xl text-sm transition-all cursor-pointer
+                    ${bgColor}
+                    ${!isCurrentMonth ? "opacity-10" : "opacity-100"}
+                    ${isSelected ? "text-white text-shadow font-black scale-110 z-10 shadow" : "font-bold"}
+                    ${isToday && !isSelected ? "border border-primary text-primary" : ""}
+                  `}
               >
                 {format(day, "d")}
-                {hasEvent && !isSelected && (
+
+                {dayEvent &&  (
                   <div
-                    className={`absolute -bottom-2 size-2 bg-primary rounded-full`}
-                  />
-                )}
-                {hasRace && !isSelected && (
-                  <div
-                    className={`absolute -bottom-2.5 size-3 bg-destructive rounded-full border border-white`}
-                  />
-                )}
-                {hasReco && !isSelected && (
-                  <div
-                    className={`absolute -bottom-2 size-2 bg-destructive/70 rounded-full`}
+                    className={`absolute -bottom-1 size-2 rounded-full ${isRace ? "bg-destructive" : "bg-primary"}`}
                   />
                 )}
               </button>
