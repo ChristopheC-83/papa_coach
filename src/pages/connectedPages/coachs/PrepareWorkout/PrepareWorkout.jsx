@@ -21,7 +21,6 @@ export default function PrepareWorkout() {
   const { athleteId } = useParams();
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
-  console.log(user)
 
   // --- ÉTATS ---
   const [athlete, setAthlete] = useState(null);
@@ -147,7 +146,7 @@ export default function PrepareWorkout() {
   const existingWorkout = trainings?.find(
     (t) => t && t.date && isSameDay(new Date(t.date), selectedDate),
   );
-  
+
   const sports = (athlete?.favorite_sports || [])
     .map((id) => AVAILABLE_SPORTS.find((s) => s.id === id))
     .filter(Boolean);
@@ -235,7 +234,12 @@ export default function PrepareWorkout() {
             )}
           </>
         ) : (
-          <AtCreateWorkout />
+          <AtCreateWorkout
+            isCreating={isCreating}
+            setIsCreating={setIsCreating}
+            selectedDate={selectedDate}
+            handleCreateWorkout={handleSaveWorkout}
+          />
         )}
       </div>
     </div>

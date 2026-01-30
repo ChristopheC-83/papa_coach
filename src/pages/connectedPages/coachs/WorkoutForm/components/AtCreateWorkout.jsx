@@ -31,7 +31,7 @@ export default function AtCreateWorkout({
             initialDate={selectedDate}
             onSubmit={handleCreateWorkout}
             onCancel={() => setIsCreating(false)}
-            initialData={existingWorkout} // <--- ON INJECTE LES INFOS ICI
+            initialData={existingWorkout} 
           />
         </div>
       )}
