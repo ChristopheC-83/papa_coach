@@ -16,6 +16,7 @@ import ExistingsWorkout from "../WorkoutForm/components/ExistingsWorkout";
 import AtCreateWorkout from "../WorkoutForm/components/AtCreateWorkout";
 import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout/CalendarWorkout";
 import ValidatedZone from "../../athletes/MyWorkout/components/TrainingDay/components/ValidatedZone/ValidatedZone";
+import WeeklyView from "./components/WeeklyView";
 
 export default function PrepareWorkout() {
   const { athleteId } = useParams();
@@ -187,6 +188,13 @@ export default function PrepareWorkout() {
           recos={[]} // À connecter plus tard
         />
       </div>
+
+      {/*  LA VUE HEBDO */}
+      <WeeklyView
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        trainings={trainings}
+      />
 
       {/* ZONE D'ACTION */}
       <div className="space-y-4 pt-2">

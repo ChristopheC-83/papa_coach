@@ -9,7 +9,7 @@ export default function BiographyForm({text, setText, handleSave}) {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full min-h-37.5 bg-secondary/10 rounded-2xl p-4 text-sm border-none focus:ring-1 focus:ring-primary"
+            className="w-full min-h-50 bg-secondary/10 rounded-2xl p-4 text-sm border-none focus:ring-1 focus:ring-primary"
             placeholder="Décris ta méthode, tes diplômes..."
           />
           <button

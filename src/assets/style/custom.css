@@ -12,3 +12,14 @@
 .png-shadow {
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
 }/*# sourceMappingURL=custom.css.map */
+
+/* Cache la scrollbar pour Chrome, Safari et Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cache la scrollbar pour IE, Edge et Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE et Edge */
+  scrollbar-width: none;  /* Firefox */
+}

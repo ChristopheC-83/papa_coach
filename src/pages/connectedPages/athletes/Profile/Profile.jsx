@@ -34,7 +34,7 @@ export default function Profile() {
           {/* --- STATUT & COACH --- */}
           <AthleteStatus user={user} coachData={coachData} />
 
-          <div className="max-md:hidden w-full max-w-md flex flex-col gap-4">
+          <div className="max-lg:hidden w-full max-w-md flex flex-col gap-4">
             {/* --- ACTIONS --- */}
             {user?.role === "coach" && <CoachCode />}
             <Logout logout={logout} />
@@ -75,7 +75,7 @@ export default function Profile() {
           )}
         </div>
 
-        <div className="md:hidden w-full max-w-md">
+        <div className="lg:hidden w-full max-w-md">
           {/* --- ACTIONS --- */}
           <Logout logout={logout} />
         </div>
