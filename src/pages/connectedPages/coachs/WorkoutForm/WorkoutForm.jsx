@@ -1,3 +1,5 @@
+import { WORKOUT_TAGS } from "@/constants/Workouts/workout";
+import { templateService } from "@/services/workoutsTemplates";
 import React, { useState } from "react";
 import {
   FiPlus,
@@ -7,6 +9,7 @@ import {
   FiArrowUp,
   FiArrowDown,
 } from "react-icons/fi";
+import { toast } from "sonner";
 export default function WorkoutForm({
   initialDate,
   onSubmit,
@@ -22,6 +25,7 @@ export default function WorkoutForm({
       { title: "Échauffement", detail: "", highlight: false },
     ],
   });
+  const [isTemplateRequested, setIsTemplateRequested] = useState(false);
 
   // Ajouter un nouveau bloc vide
   const addStep = () => {
@@ -58,10 +62,34 @@ export default function WorkoutForm({
     setWorkout({ ...workout, steps: newSteps });
   };
 
-  const handleSubmit = () => {
-    // Si on a un ID dans initialData, on passe l'ID pour savoir que c'est un UPDATE
-    onSubmit(workout, initialData?.id);
-  };
+  // Dans ton WorkoutForm.jsx
+
+  async function handleSaveEverything() {
+    try {
+      // 1. Sauvegarde pour l'athlète (ton flux habituel)
+      await onSubmit(workout, initialData?.id);
+
+      // 2. Si la case "Sauvegarder comme modèle" est cochée
+      if (isTemplateRequested) {
+        // On prépare l'objet pour le template service
+        const templateToSave = {
+          title: workout.title,
+          tag: workout.tag,
+          duration: workout.duration,
+          steps: workout.steps,
+          // Note : on ne passe PAS de date ni de athlete_id ici !
+        };
+
+        await templateService.save(templateToSave);
+        toast.success("Modèle enregistré !");
+        console.log("Modèle enregistré !");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la double sauvegarde", error);
+    }
+  }
+
+ 
 
   return (
     <div className="space-y-6 p-4 bg-card rounded-3xl border border-muted">
@@ -72,23 +100,32 @@ export default function WorkoutForm({
           value={workout.tag}
           onChange={(e) => setWorkout({ ...workout, tag: e.target.value })}
         >
-          <option className="bg-background text-foreground">Endurance</option>
-          <option className="bg-background text-foreground">Intensité</option>
-          <option className="bg-background text-foreground">
-            Récupération
-          </option>
-          <option className="bg-background text-destructive">
-            Compétition
-          </option>
+          {WORKOUT_TAGS.map((tag) => (
+            <option
+              key={tag}
+              value={tag}
+              className={`bg-background ${tag === "Compétition" ? "text-destructive" : ""}`}
+            >
+              {tag}
+            </option>
+          ))}
         </select>
-        {workout.tag !== "Compétition" && <input
-          placeholder="Durée (ex: 1h15)"
-          className="bg-secondary/20 p-4 rounded-2xl text-sm"
-          value={workout.duration}
-          onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
-        />}
+        {workout.tag !== "Compétition" && (
+          <input
+            placeholder="Durée (ex: 1h15)"
+            className="bg-secondary/20 p-4 rounded-2xl text-sm"
+            value={workout.duration}
+            onChange={(e) =>
+              setWorkout({ ...workout, duration: e.target.value })
+            }
+          />
+        )}
         <input
-          placeholder={workout.tag === "Compétition" ? "Nom / Lieu de la course" : "Nom de la séance..."}
+          placeholder={
+            workout.tag === "Compétition"
+              ? "Nom / Lieu de la course"
+              : "Nom de la séance..."
+          }
           className="col-span-2 bg-secondary/20 p-4 rounded-2xl font-bold"
           value={workout.title}
           onChange={(e) => setWorkout({ ...workout, title: e.target.value })}
@@ -96,76 +133,78 @@ export default function WorkoutForm({
       </div>
 
       {/* --- LES STEPS (BLOCS) --- */}
-      { workout.tag !== "Compétition" && <div className="space-y-4">
-        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary italic">
-          Construction de la séance
-        </h4>
+      {workout.tag !== "Compétition" && (
+        <div className="space-y-4">
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-primary italic">
+            Construction de la séance
+          </h4>
 
-        {workout.steps.map((step, index) => (
-          <div
-            key={index}
-            className={`p-4 rounded-2xl border ${step.highlight ? "border-primary bg-primary/5" : "border-muted bg-background"} transition-all`}
-          >
-            <div className="flex justify-between items-center mb-2">
-              <input
-                placeholder="Titre du bloc..."
-                className="font-bold bg-transparent outline-none w-full"
-                value={step.title}
-                onChange={(e) => updateStep(index, "title", e.target.value)}
-              />
-              <div className="flex gap-2">
-                <button
-                  onClick={() =>
-                    updateStep(index, "highlight", !step.highlight)
-                  }
-                  className={`p-2 rounded-lg ${step.highlight ? "text-primary" : "text-muted-foreground"}`}
-                >
-                  <FiStar fill={step.highlight ? "currentColor" : "none"} />
-                </button>
-                <div className="flex gap-1 border-r border-muted pr-2 mr-2">
+          {workout.steps.map((step, index) => (
+            <div
+              key={index}
+              className={`p-4 rounded-2xl border ${step.highlight ? "border-primary bg-primary/5" : "border-muted bg-background"} transition-all`}
+            >
+              <div className="flex justify-between items-center mb-2">
+                <input
+                  placeholder="Titre du bloc..."
+                  className="font-bold bg-transparent outline-none w-full"
+                  value={step.title}
+                  onChange={(e) => updateStep(index, "title", e.target.value)}
+                />
+                <div className="flex gap-2">
                   <button
-                    onClick={() => moveStep(index, "up")}
-                    disabled={index === 0}
-                    className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                    onClick={() =>
+                      updateStep(index, "highlight", !step.highlight)
+                    }
+                    className={`p-2 rounded-lg ${step.highlight ? "text-primary" : "text-muted-foreground"}`}
                   >
-                    <FiArrowUp size={16} />
+                    <FiStar fill={step.highlight ? "currentColor" : "none"} />
                   </button>
+                  <div className="flex gap-1 border-r border-muted pr-2 mr-2">
+                    <button
+                      onClick={() => moveStep(index, "up")}
+                      disabled={index === 0}
+                      className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                    >
+                      <FiArrowUp size={16} />
+                    </button>
+                    <button
+                      onClick={() => moveStep(index, "down")}
+                      disabled={index === workout.steps.length - 1}
+                      className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                    >
+                      <FiArrowDown size={16} />
+                    </button>
+                  </div>
                   <button
-                    onClick={() => moveStep(index, "down")}
-                    disabled={index === workout.steps.length - 1}
-                    className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                    onClick={() => removeStep(index)}
+                    className="p-2 text-destructive"
                   >
-                    <FiArrowDown size={16} />
+                    <FiTrash2 />
                   </button>
                 </div>
-                <button
-                  onClick={() => removeStep(index)}
-                  className="p-2 text-destructive"
-                >
-                  <FiTrash2 />
-                </button>
               </div>
+              <textarea
+                placeholder="Détails (ex: 3x10min à 90% VMA...)"
+                className="text-sm bg-transparent w-full resize-none outline-none text-muted-foreground"
+                rows={4}
+                value={step.detail}
+                onChange={(e) => updateStep(index, "detail", e.target.value)}
+              />
             </div>
-            <textarea
-              placeholder="Détails (ex: 3x10min à 90% VMA...)"
-              className="text-sm bg-transparent w-full resize-none outline-none text-muted-foreground"
-              rows={4}
-              value={step.detail}
-              onChange={(e) => updateStep(index, "detail", e.target.value)}
-            />
-          </div>
-        ))}
+          ))}
 
-        <button
-          onClick={addStep}
-          className="w-full py-4 border-2 border-dashed border-muted rounded-2xl text-muted-foreground flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all cursor-pointer"
-        >
-          <FiPlus /> Ajouter un bloc
-        </button>
-      </div>}
+          <button
+            onClick={addStep}
+            className="w-full py-4 border-2 border-dashed border-muted rounded-2xl text-muted-foreground flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all cursor-pointer"
+          >
+            <FiPlus /> Ajouter un bloc
+          </button>
+        </div>
+      )}
 
       <button
-        onClick={handleSubmit}
+        onClick={handleSaveEverything}
         className="w-full py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/30 flex items-center justify-center gap-2 text-shadow cursor-pointer hover:bg-primary/80 transition-all"
       >
         <FiSave className="png-shadow" />
@@ -178,6 +217,22 @@ export default function WorkoutForm({
       >
         ANNULER
       </button>
+      <label className="flex items-center gap-3 p-3 bg-primary/5 rounded-2xl border border-primary/10 cursor-pointer hover:bg-primary/10 transition-all mb-4">
+        <input
+          type="checkbox"
+          className="size-5 accent-primary"
+          checked={isTemplateRequested}
+          onChange={(e) => setIsTemplateRequested(e.target.checked)}
+        />
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-primary">
+            Bibliothèque
+          </p>
+          <p className="text-[11px] font-bold text-muted-foreground">
+            Enregistrer cette séance comme modèle
+          </p>
+        </div>
+      </label>
     </div>
   );
 }

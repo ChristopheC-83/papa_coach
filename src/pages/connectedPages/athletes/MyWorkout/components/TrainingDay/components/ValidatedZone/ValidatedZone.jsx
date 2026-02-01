@@ -106,7 +106,7 @@ export default function ValidatedZone({ activeActivity, feedback = {} }) {
                       {item.label}
                     </td>
                     <td className="p-3 text-foreground font-medium leading-relaxed">
-                      {item.key === "comment" ? `"${value}"` : value}
+                      {value}
                     </td>
                   </tr>
                 );
