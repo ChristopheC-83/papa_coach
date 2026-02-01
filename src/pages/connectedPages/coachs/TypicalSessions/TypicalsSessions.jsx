@@ -30,6 +30,7 @@ export default function TypicalsSessions({ onSelectTemplate = null }) {
     e.stopPropagation(); // Évite de sélectionner la séance en cliquant sur supprimer
     if (confirm("Supprimer ce modèle ?")) {
       await templateService.delete(id);
+      toast.info("Modèle supprimé");
       setTemplates(templates.filter((t) => t.id !== id));
     }
   };
