@@ -1,3 +1,4 @@
+import { SPORTS_CONFIG } from "@/constants/Workouts/sports";
 import React from "react";
 import { FiEdit2, FiTrash2, FiClock } from "react-icons/fi";
 
@@ -6,6 +7,8 @@ export default function ExistingsWorkout({
   onDelete,
   onEdit,
 }) {
+  const sport = SPORTS_CONFIG[existingWorkout.sport] || SPORTS_CONFIG.RUN;
+
   const handleDelete = () => {
     if (window.confirm("Supprimer cette séance définitivement ?")) {
       onDelete(existingWorkout.id);
@@ -14,19 +17,30 @@ export default function ExistingsWorkout({
 
   return (
     <div className="bg-card border border-muted p-6 rounded-3xl shadow-sm w-full max-w-md mx-auto transition-all hover:shadow-md">
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between  mb-4 items-center">
         <div className="space-y-1">
-          <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-primary/5 px-2 py-0.5 rounded-full">
-            {existingWorkout.tag}
-          </span>
-          <h3
-            className={`text-xl font-black leading-tight italic uppercase tracking-tighter ${existingWorkout.tag !== "Compétition" ? "text-primary" : "text-destructive"}`}
+          <div className="flex gap-3 items-center">
+            <div
+            className={`text-3xl p-1 rounded-2xl ${sport.color} bg-opacity-20 flex items-center justify-center shadow-inner size-14`}
           >
-            {existingWorkout.title}
-          </h3>
-          {existingWorkout.tag !== "Compétition" && <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-bold uppercase">
-            <FiClock className="text-primary" /> {existingWorkout.duration}
-          </div>}
+            {sport.icon}
+          </div>
+            <div>
+              <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-primary/5 px-2 py-0.5 rounded-full">
+                {existingWorkout.tag}
+              </span>
+              <h3
+                className={`text-xl font-black leading-tight italic uppercase tracking-tighter ${existingWorkout.tag !== "Compétition" ? "text-primary" : "text-destructive"}`}
+              >
+                {existingWorkout.title}
+              </h3>
+              {existingWorkout.tag !== "Compétition" && (
+                <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-bold uppercase">
+                  <FiClock className="text-primary" /> {existingWorkout.duration}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* ACTIONS BOUTONS */}

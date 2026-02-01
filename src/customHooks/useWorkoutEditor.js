@@ -4,6 +4,7 @@ export function useWorkoutEditor(initialData, initialDate) {
   const [workout, setWorkout] = useState({
     title: initialData?.title || "",
     tag: initialData?.tag || "Endurance",
+    sport: initialData?.sport || "RUN",
     duration: initialData?.duration || "",
     date: initialData?.date || initialDate,
     steps: initialData?.steps || [

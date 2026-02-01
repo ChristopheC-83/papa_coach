@@ -78,17 +78,39 @@ export default function TypicalsSessions({ onSelectTemplate = null }) {
         setActiveTag={setActiveTag}
       />
 
+      {/* --- AJOUTER CE BOUTON --- */}
+      <button
+        onClick={() =>
+          setEditingTemplate({
+            title: "",
+            tag: "Endurance",
+            duration: "01:00",
+            steps: [{ title: "Échauffement", detail: "", highlight: false }],
+          })
+        }
+        className="w-full py-4 border-2 border-dashed border-primary/30 rounded-3xl text-primary font-bold flex items-center justify-center gap-2 hover:bg-primary/5 transition-all mb-4"
+      >
+        + Nouveau modèle de séance
+      </button>
+
+      {/* Ton code existant de la grille ensuite... */}
+
       <div className="grid grid-cols-1 gap-3 max-h-125 overflow-y-auto no-scrollbar pr-1">
         {filteredTemplates.length > 0 ? (
-          filteredTemplates.map((template) => (
-            <TilesTypicalsSessions
-              key={template.id}
-              template={template}
-              handleDelete={handleDelete}
-              onSelectTemplate={onSelectTemplate}
-              onEditClick={() => setEditingTemplate(template)} // On ajoute cette prop
-            />
-          ))
+          filteredTemplates.map((template) => {
+            // SÉCURITÉ : Si le template est invalide, on ne l'affiche pas
+            if (!template) return null;
+
+            return (
+              <TilesTypicalsSessions
+                key={template.id}
+                template={template}
+                handleDelete={handleDelete}
+                onSelectTemplate={onSelectTemplate}
+                onEditClick={() => setEditingTemplate(template)}
+              />
+            );
+          })
         ) : (
           <div className="text-center py-10 border-2 border-dashed border-muted rounded-3xl text-xs text-muted-foreground">
             Aucun modèle trouvé

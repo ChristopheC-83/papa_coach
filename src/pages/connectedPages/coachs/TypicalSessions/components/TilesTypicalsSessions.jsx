@@ -1,3 +1,4 @@
+import { SPORTS_CONFIG } from "@/constants/Workouts/sports";
 import React from "react";
 import { FiEdit3, FiTrash2, FiClock } from "react-icons/fi";
 
@@ -5,8 +6,12 @@ export default function TilesTypicalsSessions({
   template,
   handleDelete,
   onSelectTemplate,
-  onEditClick, // <--- Ne pas oublier de la récupérer ici !
+  onEditClick, 
 }) {
+
+  const sportInfo = SPORTS_CONFIG[template?.sport] || SPORTS_CONFIG.RUN;
+
+
   const handleMainClick = () => {
     if (onSelectTemplate) {
       // Mode Sélection (Calendrier)
@@ -24,16 +29,24 @@ export default function TilesTypicalsSessions({
     >
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
+          <span
+            className={`text-[12px] p-1.5 rounded-lg ${sportInfo.color} bg-opacity-20`}
+          >
+            {sportInfo.icon}
+          </span>
           <span className="text-[9px] font-black uppercase px-2 py-0.5 bg-primary/10 text-primary rounded-md">
-            {template.tag}
+            {template?.tag || "Sans Tag"}
           </span>
           <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-            <FiClock className="size-3" /> {template.duration}
+            <FiClock className="size-3" />{" "}
+            {template?.duration || "Temps à définir"}
           </span>
         </div>
-        <h4 className="font-bold text-sm leading-tight">{template.title}</h4>
+        <h4 className="font-bold text-sm leading-tight">
+          {template?.title || "Séance sans titre"}
+        </h4>
         <p className="text-[10px] text-muted-foreground mt-1">
-          {template.steps?.length || 0} segments d'entraînement
+          {template?.steps?.length || 0} segments d'entraînement
         </p>
       </div>
 
