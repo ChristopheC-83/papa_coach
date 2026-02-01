@@ -1,14 +1,15 @@
-import { LIBRARY_FILTERS } from "@/constants/Workouts/workout";
 import { templateService } from "@/services/workoutsTemplates";
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import SearchTypicalSession from "./components/SearchTypicalSession";
 import TilesTypicalsSessions from "./components/TilesTypicalsSessions";
+import WorkoutForm from "../WorkoutForm/WorkoutForm";
+import { toast } from "sonner";
 
-
-export default function TypicalsSessions({ onSelectTemplate }) {
+export default function TypicalsSessions({ onSelectTemplate = null }) {
   const [templates, setTemplates] = useState([]);
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState("Tous");
+  const [editingTemplate, setEditingTemplate] = useState(null);
 
   useEffect(() => {
     async function loadTemplates() {
@@ -33,22 +34,63 @@ export default function TypicalsSessions({ onSelectTemplate }) {
     }
   };
 
+  if (editingTemplate) {
+    return (
+      <div className="w-full max-w-lg mx-auto mt-5 p-4 animate-in fade-in duration-300">
+        <button
+          onClick={() => setEditingTemplate(null)}
+          className="mb-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+        >
+          ← Retour à la bibliothèque
+        </button>
+
+        <WorkoutForm
+          initialData={editingTemplate}
+          onCancel={() => setEditingTemplate(null)}
+          isLibraryMode={true} // <--- C'est ici que la magie opère
+          onSubmit={async (updatedData) => {
+            // Ici on réutilise ton service save (qui fait l'upsert)
+            await templateService.save({
+              ...updatedData,
+              id: editingTemplate.id, // On s'assure de garder l'ID pour l'update
+            });
+            toast.success(
+              editingTemplate?.id ? "Modèle mis à jour" : "Nouveau modèle créé",
+            );
+            // On rafraîchit la liste et on ferme l'édition
+            const data = await templateService.getMyTemplates();
+            setTemplates(data);
+            setEditingTemplate(null);
+          }}
+        />
+      </div>
+    );
+  }
+
+  // --- MODE LISTE (Ton code actuel) ---
   return (
     <section className="w-full max-w-lg mx-auto mt-5 p-4 space-y-6 pb-24">
-      {/* 1. Recherche & Filtres Rapides */}
-        <SearchTypicalSession search={search} setSearch={setSearch} activeTag={activeTag} setActiveTag={setActiveTag} />
+      <SearchTypicalSession
+        search={search}
+        setSearch={setSearch}
+        activeTag={activeTag}
+        setActiveTag={setActiveTag}
+      />
 
-        
-
-      {/* 2. Liste des modèles */}
       <div className="grid grid-cols-1 gap-3 max-h-125 overflow-y-auto no-scrollbar pr-1">
         {filteredTemplates.length > 0 ? (
           filteredTemplates.map((template) => (
-            <TilesTypicalsSessions key={template.id} template={template} handleDelete={handleDelete} onSelectTemplate={onSelectTemplate} />
+            <TilesTypicalsSessions
+              key={template.id}
+              template={template}
+              handleDelete={handleDelete}
+              onSelectTemplate={onSelectTemplate}
+              onEditClick={() => setEditingTemplate(template)} // On ajoute cette prop
+            />
           ))
         ) : (
-          <div className="text-center py-10 border-2 border-dashed border-muted rounded-3xl">
-            <p className="text-xs text-muted-foreground">Aucun modèle trouvé</p>
+          <div className="text-center py-10 border-2 border-dashed border-muted rounded-3xl text-xs text-muted-foreground">
+            Aucun modèle trouvé
           </div>
         )}
       </div>

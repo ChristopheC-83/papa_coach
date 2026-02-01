@@ -1,15 +1,6 @@
-import { WORKOUT_TAGS } from "@/constants/Workouts/workout";
 import { useWorkoutEditor } from "@/customHooks/useWorkoutEditor";
 import { templateService } from "@/services/workoutsTemplates";
 import React, { useState } from "react";
-import {
-  FiPlus,
-  FiTrash2,
-  FiStar,
-  FiSave,
-  FiArrowUp,
-  FiArrowDown,
-} from "react-icons/fi";
 import { toast } from "sonner";
 import StepList from "./componentsForm/StepList";
 import FormHeader from "./componentsForm/FormHeader";
@@ -19,8 +10,8 @@ export default function WorkoutForm({
   onSubmit,
   onCancel,
   initialData,
+  isLibraryMode = false, // Par défaut à false (mode athlète)
 }) {
-  
   const {
     workout,
     setWorkout, // On en a besoin pour les inputs de titre/tag
@@ -81,9 +72,8 @@ export default function WorkoutForm({
         isTemplateRequested={isTemplateRequested}
         setIsTemplateRequested={setIsTemplateRequested}
         isUpdate={!!initialData}
+        showTemplateCheckbox={!isLibraryMode} // On n'affiche que si on n'est PAS en mode bibliothèque
       />
-
-      
     </div>
   );
 }

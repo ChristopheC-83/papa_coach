@@ -1,11 +1,25 @@
-import React from 'react'
+import React from "react";
 import { FiEdit3, FiTrash2, FiClock } from "react-icons/fi";
 
-export default function TilesTypicalsSessions({ template , handleDelete, onSelectTemplate }) {
+export default function TilesTypicalsSessions({
+  template,
+  handleDelete,
+  onSelectTemplate,
+  onEditClick, // <--- Ne pas oublier de la récupérer ici !
+}) {
+  const handleMainClick = () => {
+    if (onSelectTemplate) {
+      // Mode Sélection (Calendrier)
+      onSelectTemplate(template);
+    } else {
+      // Mode Gestion (Bibliothèque)
+      onEditClick();
+    }
+  };
+
   return (
     <div
-      key={template.id}
-      onClick={() => onSelectTemplate(template)}
+      onClick={handleMainClick}
       className="group flex items-center justify-between p-4 bg-card border border-muted rounded-3xl hover:border-primary/50 transition-all text-left cursor-pointer shadow-sm hover:shadow-md"
     >
       <div className="flex-1">
@@ -24,13 +38,25 @@ export default function TilesTypicalsSessions({ template , handleDelete, onSelec
       </div>
 
       <div className="flex items-center gap-3">
+        {/* BOUTON SUPPRIMER */}
         <button
-          onClick={(e) => handleDelete(template.id, e)}
-          className="p-2 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation(); // BLOQUE la remontée du clic vers le div parent
+            handleDelete(template.id, e);
+          }}
+          className="p-2 text-muted-foreground hover:text-destructive md:opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
         >
           <FiTrash2 className="size-4" />
         </button>
-        <div className="size-8 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors cursor-pointer">
+
+        {/* ICONE EDIT (Visuelle ou Bouton) */}
+        <div
+          className="size-8 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors"
+          onClick={(e) => {
+            e.stopPropagation(); // Sécurité
+            onEditClick();
+          }}
+        >
           <FiEdit3 className="size-4" />
         </div>
       </div>
