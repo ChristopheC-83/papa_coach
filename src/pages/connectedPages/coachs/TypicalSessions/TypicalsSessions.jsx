@@ -9,6 +9,7 @@ export default function TypicalsSessions({ onSelectTemplate = null }) {
   const [templates, setTemplates] = useState([]);
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState("Tous");
+  const [activeSport, setActiveSport] = useState("Tous");
   const [editingTemplate, setEditingTemplate] = useState(null);
 
   useEffect(() => {
@@ -21,9 +22,14 @@ export default function TypicalsSessions({ onSelectTemplate = null }) {
 
   // Logique de filtrage combinée (Texte + Tag)
   const filteredTemplates = templates.filter((t) => {
+    if (!t) return false;
     const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
     const matchesTag = activeTag === "Tous" || t.tag === activeTag;
-    return matchesSearch && matchesTag;
+
+    // Filtre par sport
+    const matchesSport = activeSport === "Tous" || t.sport === activeSport;
+
+    return matchesSearch && matchesTag && matchesSport;
   });
 
   const handleDelete = async (id, e) => {
@@ -76,6 +82,8 @@ export default function TypicalsSessions({ onSelectTemplate = null }) {
         setSearch={setSearch}
         activeTag={activeTag}
         setActiveTag={setActiveTag}
+        activeSport={activeSport}
+        setActiveSport={setActiveSport}
       />
 
       {/* --- AJOUTER CE BOUTON --- */}
