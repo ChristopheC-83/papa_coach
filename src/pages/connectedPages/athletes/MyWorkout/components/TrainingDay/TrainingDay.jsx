@@ -25,7 +25,7 @@ export default function TrainingDay({
       {selectedSession && <SessionDetail selectedSession={selectedSession} />}
       {/* {selectedReco && <RecoDetail selectedReco={selectedReco} />}
       {selectedRace && <RaceDetail selectedRace={selectedRace} />} */}
-      {!activeActivity && <SessionFree />}
+      {!activeActivity && <SessionFree /> }
 
       {activeActivity && (
         <div className="mt-6">

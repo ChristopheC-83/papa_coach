@@ -19,7 +19,7 @@ export default function StepDetail({ step }) {
           {step.title}
         </h4>
         <p
-          className={`text-sm font-bold leading-tight text-shadow ${step.highlight ? "text-white " : "text-foreground"}`}
+          className={`text-sm font-bold whitespace-pre-line leading-relaxed text-shadow ${step.highlight ? "text-white " : "text-foreground"}`}
         >
           {step.detail}
         </p>

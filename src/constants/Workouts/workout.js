@@ -2,6 +2,9 @@
 export const WORKOUT_TAGS = [
   "Endurance",
   "Intensité",
+  "Explosivité",
+  "Technique",
+  "Fun",  
   "Récupération",
   "Compétition",
 ];

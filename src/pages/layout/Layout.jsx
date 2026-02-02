@@ -16,9 +16,9 @@ export default function Layout() {
   if (!isHydrated) return <Loader />;
 
   return (
-    <div className="min-h-dvh  w-vw overflow-hidden">
+    <div className="min-h-dvh  w-vw overflow-hidden ">
       <Toaster position="top-center" richColors expand={false} />
-      <main className="w-vw min-h-dvh flex max-md:flex-col md:pl-44 md:pr-3 overflow-hidden bg-background text-foreground ">
+      <main className="w-vw min-h-dvh flex max-md:flex-col md:pl-44 md:pr-3 overflow-hidden bg-background text-foreground pb-40">
         <InstallPWA />
         <Navbar />
         <div className="flex flex-col w-full">

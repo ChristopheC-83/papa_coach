@@ -35,17 +35,19 @@ export default function NavbarMobile({ user }) {
   }
 
   return (
-    <nav className="flex justify-around py-2">
+    <nav className="flex justify-around py-1.5">
       {links.map((link) => {
         const Icon = link.icon;
         return (
           <NavLink
             key={link.path}
             to={link.path}
-            className="flex flex-col items-center w-[18%]"
+            className="flex flex-col items-center w-[30%]"
           >
-            <Icon className="size-7" />
-            <span className="text-center text-sm">{link.label}</span>
+            <Icon className="size-6" />
+            <span className="text-center text-xs text-nowrap">
+              {link.label}
+            </span>
           </NavLink>
         );
       })}

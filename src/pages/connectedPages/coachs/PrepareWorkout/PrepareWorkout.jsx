@@ -18,8 +18,9 @@ import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout
 import ValidatedZone from "../../athletes/MyWorkout/components/TrainingDay/components/ValidatedZone/ValidatedZone";
 import WeeklyView from "./components/WeeklyView";
 
-export default function PrepareWorkout() {
-  const { athleteId } = useParams();
+export default function PrepareWorkout({ overrideAthleteId }) {
+  const { athleteId: paramId } = useParams();
+  const athleteId = overrideAthleteId || paramId;
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
 
@@ -80,7 +81,7 @@ export default function PrepareWorkout() {
   // --- 3. HANDLERS (CRUD) ---
 
   // Sauvegarde (Création OU Modification)
-  async function handleSaveWorkout (formData, existingId) {
+  async function handleSaveWorkout(formData, existingId) {
     try {
       let result;
       if (existingId) {
@@ -103,11 +104,11 @@ export default function PrepareWorkout() {
       alert("Erreur de sauvegarde");
       console.error("Détails :", error.message);
     }
-  };
+  }
 
   // Dans ton composant PrepareWorkout.jsx
 
-  async function handleReset(workoutId)  {
+  async function handleReset(workoutId) {
     // 1. Demande de confirmation (Simple mais efficace)
     const confirmReset = window.confirm(
       "⚠️ ATTENTION : Tu vas supprimer définitivement le débriefing de l'athlète. Cette action est irréversible. Continuer ?",
@@ -130,10 +131,10 @@ export default function PrepareWorkout() {
       console.error("Erreur lors du reset:", error.message);
       alert("Erreur technique lors de la réinitialisation.");
     }
-  };
+  }
 
   // Suppression
-  async function handleDeleteWorkout (id)  {
+  async function handleDeleteWorkout(id) {
     try {
       await workoutService.deleteWorkout(id);
       setTrainings(trainings.filter((t) => t && t.id !== id));
@@ -141,7 +142,7 @@ export default function PrepareWorkout() {
       alert("Erreur de suppression");
       console.error("Détails :", error.message);
     }
-  };
+  }
 
   // --- 4. LOGIQUE DE VUE ---
   const existingWorkout = trainings?.find(

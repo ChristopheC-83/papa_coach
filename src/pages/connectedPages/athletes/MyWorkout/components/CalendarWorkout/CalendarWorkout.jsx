@@ -26,7 +26,7 @@ export default function CalendarWorkout({
   const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
 
   return (
-    <div className=" w-md max-w-full max-md:mx-2 flex flex-col">
+    <div className="w-full max-w-md mx-auto mt-5 space-y-6 pb-3 px-2">
       <CalendarWorkoutHeader
         currentMonth={currentMonth}
         setCurrentMonth={setCurrentMonth}
@@ -82,7 +82,7 @@ export default function CalendarWorkout({
               >
                 {format(day, "d")}
 
-                {dayEvent &&  (
+                {dayEvent && (
                   <div
                     className={`absolute -bottom-1 size-2 rounded-full ${isRace ? "bg-destructive" : "bg-primary"}`}
                   />

@@ -66,7 +66,7 @@ export default function MyWorkout() {
   }, [currentMonth]);
 
   return (
-    <div className="w-full md:w-fit max-w-4xl mx-auto mt-5 p-4 space-y-6 pb-24 ">
+    <div className="w-full max-w-md mx-auto mt-5 space-y-6 pb-24 px-2">
       <TitlePage titlePage="Planning" iconPage={<FiCalendar />} />
 
       {loading ? (
@@ -74,12 +74,12 @@ export default function MyWorkout() {
           Synchronisation de tes efforts...
         </div>
       ) : (
-        <div className="w-full mx-auto flex max-lg:flex-col justify-between gap-4 max-lg:items-center">
-          <div className="flex flex-col">
+        <div className="w-full max-w-md px-2 mx-auto flex flex-col justify-between gap-3 items-center">
+          
             <CalendarWorkout
               currentMonth={currentMonth}
               setCurrentMonth={setCurrentMonth}
-              trainings={trainings} 
+              trainings={trainings}
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
             />
@@ -89,7 +89,6 @@ export default function MyWorkout() {
               setSelectedDate={setSelectedDate}
               trainings={trainings}
             />
-          </div>
 
           <TrainingDay
             selectedDate={selectedDate}
@@ -98,7 +97,7 @@ export default function MyWorkout() {
             // selectedReco={selectedReco}
             // On peut ajouter ici une fonction de refresh si l'athlète valide sa séance
             onRefresh={refreshData}
-          />
+            />
         </div>
       )}
     </div>
