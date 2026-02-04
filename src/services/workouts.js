@@ -79,8 +79,6 @@ export const workoutService = {
         duration_actual: validationData.duration_actual,
         coach_comment: validationData.coach_comment,
         load_score: validationData.load_score,
-        // On peut imaginer un statut spécifique ou simplement
-        // considérer que la présence d'un load_score vaut validation
         status: "validated",
       })
       .eq("id", workoutId)

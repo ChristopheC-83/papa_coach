@@ -1,10 +1,11 @@
 import { workoutService } from "@/services/workouts";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiZap, FiCheckCircle } from "react-icons/fi";
 import { toast } from "sonner";
 
 export default function CoachVerdict({ workout, onUpdate }) {
   // On initialise avec les valeurs existantes ou des valeurs par défaut
+  console.log("workout",workout.load_score);
   const [duration, setDuration] = useState(
     workout.duration_actual || workout.duration_planned || 0,
   );
@@ -12,6 +13,7 @@ export default function CoachVerdict({ workout, onUpdate }) {
   const [isSaving, setIsSaving] = useState(false);
 
   const loadScore = duration * (workout.rpe || 0);
+  const isAlreadyValidated = !!workout.load_score;
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -20,6 +22,7 @@ export default function CoachVerdict({ workout, onUpdate }) {
       await workoutService.validateWorkout(workout.id, {
         duration_actual: duration,
         coach_comment: comment,
+        load_score: loadScore,
       });
 
       // 2. C'est ici qu'on appelle la fonction passée par le parent !
@@ -29,12 +32,20 @@ export default function CoachVerdict({ workout, onUpdate }) {
 
       toast.success("Verdict signé !");
     } catch (error) {
-        toast.error("Erreur de sauvegarde");
-        console.error("Details:", error.message);
+      toast.error("Erreur de sauvegarde");
+      console.error("Details:", error.message);
     } finally {
       setIsSaving(false);
     }
-  };
+    };
+    
+    useEffect(() => {
+      // On force la mise à jour des champs dès que l'objet workout change
+      if (workout) {
+        setDuration(workout.duration_actual || workout.duration_planned || 0);
+        setComment(workout.coach_comment || "");
+      }
+    }, [workout]);
 
   return (
     <div className="bg-zinc-900/40 backdrop-blur-xl border-2 border-primary/20 rounded-[40px] p-8 shadow-2xl space-y-6 mt-4 animate-in slide-in-from-bottom-4 duration-500">
@@ -89,7 +100,11 @@ export default function CoachVerdict({ workout, onUpdate }) {
           className="group relative w-full py-5 bg-white text-black rounded-[24px] font-black uppercase italic tracking-widest hover:bg-primary hover:text-white transition-all overflow-hidden active:scale-95 disabled:opacity-50"
         >
           <span className="relative z-10 flex items-center justify-center gap-2">
-            {isSaving ? "Synchronisation..." : "Signer le Verdict"}
+            {isSaving
+              ? "Synchronisation..."
+              : isAlreadyValidated
+                ? "Mettre à jour le Verdict"
+                : "Signer le Verdict"}
             <FiCheckCircle className="text-xl" />
           </span>
         </button>

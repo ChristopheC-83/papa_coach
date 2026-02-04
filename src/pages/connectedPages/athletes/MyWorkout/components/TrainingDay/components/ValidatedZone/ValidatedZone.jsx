@@ -1,12 +1,17 @@
 import React from "react";
 import { FiX, FiCheck, FiActivity } from "react-icons/fi";
 import CoachVerdict from "./components/CoachVerdict";
+import { useUserStore } from "@/store/user/useUserStore";
+import CoachFeedbackDisplay from "./components/CoachFeedbackDisplay";
 
 export default function ValidatedZone({
   activeActivity,
   feedback = {},
   onUpdate,
 }) {
+  const user = useUserStore((state) => state.user);
+  const isCoach = user?.role === "coach";
+  const isCompleted = activeActivity.is_completed;
   // Configuration des lignes du tableau pour un rendu dynamique et propre
   const FEEDBACK_CONFIG = [
     { key: "pre_feeling", label: "État initial", color: "text-zinc-400" },
@@ -34,8 +39,6 @@ export default function ValidatedZone({
       bg: "bg-primary/5",
     },
   ];
-
-  const isCompleted = activeActivity.is_completed;
 
   return (
     <div className="bg-card border-2 border-primary/10 rounded-[32px] p-6 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-500">
@@ -129,7 +132,17 @@ export default function ValidatedZone({
           </tbody>
         </table>
       </div>
-      <CoachVerdict workout={activeActivity} onUpdate={onUpdate} />
+      {/* --- ZONE COACH : STRICTEMENT RÉSERVÉE --- */}
+      {/* ... (Header et Tableau de feedback athlète existant) ... */}
+
+      {/* --- LE PONT DE DÉCISION --- */}
+      {isCoach ? (
+        // Le coach voit son formulaire d'édition
+        <CoachVerdict workout={activeActivity} onUpdate={onUpdate} />
+      ) : (
+        // L'athlète voit le beau rendu visuel
+        <CoachFeedbackDisplay workout={activeActivity} />
+      )}
 
       {/* --- FOOTER : INFO SYSTÈME --- */}
       <div className="flex items-center justify-center gap-2 opacity-30">

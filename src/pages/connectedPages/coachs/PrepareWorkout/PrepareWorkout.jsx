@@ -249,6 +249,7 @@ export default function PrepareWorkout({ overrideAthleteId }) {
             {/* SI COMPLÉTÉE : On affiche d'abord le feedback de l'athlète */}
             {existingWorkout.is_completed !== null && (
               <ValidatedZone
+                key={existingWorkout.id}
                 activeActivity={existingWorkout}
                 feedback={existingWorkout.athlete_feedback}
                 onUpdate={fetchWorkouts}
