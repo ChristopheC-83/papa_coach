@@ -27,9 +27,9 @@ export default function SearchTypicalSession({
       <div className="flex gap-2 flex-wrap justify-between pb-2">
         <button
           onClick={() => setActiveSport("Tous")}
-          className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+          className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-shadow cursor-pointer ${
             activeSport === "Tous"
-              ? "bg-primary text-white"
+              ? "bg-primary/80 text-white"
               : "bg-secondary/10 text-muted-foreground"
           }`}
         >
@@ -39,10 +39,10 @@ export default function SearchTypicalSession({
           <button
             key={sport.id}
             onClick={() => setActiveSport(sport.id)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer ${
               activeSport === sport.id
                 ? `${sport.color} text-white`
-                : "bg-secondary/10 text-muted-foreground hover:bg-secondary/20"
+                : "bg-secondary/10 text-muted-foreground hover:bg-secondary/30"
             }`}
           >
             <span>{sport.icon}</span>
@@ -56,10 +56,10 @@ export default function SearchTypicalSession({
           <button
             key={tag}
             onClick={() => setActiveTag(tag)}
-            className={`px-4 py-1.5 rounded-full text-[11px] font-bold transition-all whitespace-nowrap border ${
+            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-shadow cursor-pointer ${
               activeTag === tag
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-secondary/10 text-muted-foreground border-transparent hover:border-muted"
+                ? "bg-primary/80 text-white"
+                : "bg-secondary/10 text-muted-foreground hover:bg-secondary/30"
             }`}
           >
             {tag}

@@ -1,20 +1,24 @@
 import React from "react";
+import { FiX, FiCheck, FiActivity } from "react-icons/fi";
+import CoachVerdict from "./components/CoachVerdict";
 
-import { FiX, FiCheck } from "react-icons/fi";
-
-export default function ValidatedZone({ activeActivity, feedback = {} }) {
-  console.log(activeActivity);
+export default function ValidatedZone({
+  activeActivity,
+  feedback = {},
+  onUpdate,
+}) {
+  // Configuration des lignes du tableau pour un rendu dynamique et propre
   const FEEDBACK_CONFIG = [
-    { key: "pre_feeling", label: "Avant", color: "text-muted-foreground" },
+    { key: "pre_feeling", label: "État initial", color: "text-zinc-400" },
     {
       key: "session_feeling",
-      label: "Pendant",
-      color: "text-muted-foreground",
+      label: "Pendant l'effort",
+      color: "text-zinc-400",
     },
     {
       key: "pros",
       label: "Points Forts",
-      color: "text-green-600",
+      color: "text-green-500",
       bg: "bg-green-500/5",
     },
     {
@@ -30,95 +34,110 @@ export default function ValidatedZone({ activeActivity, feedback = {} }) {
       bg: "bg-primary/5",
     },
   ];
+
+  const isCompleted = activeActivity.is_completed;
+
   return (
-    <div className="bg-card border-2 border-primary/10 rounded-3xl p-6 shadow-xl space-y-6">
-      {/* Header du Statut */}
+    <div className="bg-card border-2 border-primary/10 rounded-[32px] p-6 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-500">
+      {/* --- HEADER : STATUT & RPE --- */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div
-            className={`size-12 rounded-2xl flex items-center justify-center shadow-sm ${
-              activeActivity.is_completed
+            className={`size-14 rounded-2xl flex items-center justify-center shadow-inner ${
+              isCompleted
                 ? "bg-green-500/10 text-green-500"
                 : "bg-destructive/10 text-destructive"
             }`}
           >
-            {activeActivity.is_completed ? (
-              <FiCheck className="text-2xl" />
+            {isCompleted ? (
+              <FiCheck className="text-3xl" />
             ) : (
-              <FiX className="text-2xl" />
+              <FiX className="text-3xl" />
             )}
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground leading-none mb-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground leading-none mb-1">
               Rapport d'activité
             </p>
-            <p className="text-lg font-black uppercase italic leading-none">
-              {activeActivity.is_completed
-                ? "Séance Validée !"
-                : "Séance non faite..."}
+            <p className="text-xl font-black uppercase italic tracking-tighter leading-none">
+              {isCompleted ? "Séance Terminée" : "Séance Ignorée"}
             </p>
           </div>
         </div>
+
+        {/* Badge RPE : Le coeur de la donnée athlète */}
+        {isCompleted && (
+          <div className="flex flex-col items-center justify-center size-14 bg-zinc-900 border border-white/5 rounded-2xl shadow-xl">
+            <p className="text-[8px] font-black uppercase tracking-widest text-primary">
+              RPE
+            </p>
+            <p className="text-xl font-black italic">
+              {activeActivity.rpe || feedback.rpe || "-"}
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Grille de Data (uniquement non faite) */}
+      {/* --- CORPS : DÉTAILS DU FEEDBACK --- */}
+      <div className="overflow-hidden border border-white/5 rounded-2xl bg-black/20">
+        <table className="w-full text-left border-collapse text-[11px]">
+          <thead>
+            <tr className="bg-white/5 border-b border-white/5">
+              <th className="p-4 font-black uppercase tracking-widest text-zinc-500 w-1/3">
+                Analyse
+              </th>
+              <th className="p-4 font-black uppercase tracking-widest text-zinc-500">
+                Détails de l'athlète
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/5">
+            {/* Cas 1 : Séance NON FAITE */}
+            {!isCompleted && (
+              <tr>
+                <td className="p-4 font-bold italic uppercase text-destructive">
+                  Motif
+                </td>
+                <td className="p-4 text-foreground font-medium italic">
+                  {feedback.reason || "Aucune raison renseignée."}
+                </td>
+              </tr>
+            )}
 
-      {!activeActivity.is_completed && (
-        <div className="overflow-hidden border border-primary/10 rounded-2xl bg-secondary/5 mt-4">
-          <table className="w-full text-left border-collapse text-[11px]">
-            <thead>
-              <tr className="bg-primary/5 border-b border-primary/10">
-                <th className="p-3 font-black uppercase tracking-tighter w-1/3">
-                  Raison
-                </th>
-                <th className="p-3 font-black uppercase tracking-tighter">
-                  {activeActivity.athlete_feedback.reason}
-                </th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      )}
-      {/* Grille de Data (uniquement si fait) */}
-      {activeActivity.is_completed && (
-        <div className="overflow-hidden border border-primary/10 rounded-2xl bg-secondary/5 mt-4">
-          <table className="w-full text-left border-collapse text-[11px]">
-            <thead>
-              <tr className="bg-primary/5 border-b border-primary/10">
-                <th className="p-3 font-black uppercase tracking-tighter w-1/3">
-                  Analyse
-                </th>
-                <th className="p-3 font-black uppercase tracking-tighter">
-                  Détails
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-primary/5">
-              {FEEDBACK_CONFIG.map((item) => {
+            {/* Cas 2 : Séance FAITE - On boucle sur la config */}
+            {isCompleted &&
+              FEEDBACK_CONFIG.map((item) => {
                 const value = feedback[item.key];
-                if (!value) return null; // On n'affiche pas la ligne si le champ est vide
+                if (!value) return null;
 
                 return (
-                  <tr key={item.key} className={`${item.bg || ""}`}>
+                  <tr
+                    key={item.key}
+                    className={`${item.bg || ""} transition-colors hover:bg-white/2`}
+                  >
                     <td
-                      className={`p-3 font-bold italic uppercase ${item.color}`}
+                      className={`p-4 font-bold italic uppercase whitespace-nowrap ${item.color}`}
                     >
                       {item.label}
                     </td>
-                    <td className="p-3 text-foreground font-medium leading-relaxed">
+                    <td className="p-4 text-zinc-200 font-medium leading-relaxed whitespace-pre-line">
                       {value}
                     </td>
                   </tr>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
-      )}
+          </tbody>
+        </table>
+      </div>
+      <CoachVerdict workout={activeActivity} onUpdate={onUpdate} />
 
-      <p className="text-center text-[8px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-40">
-        Données archivées — Coach notifié
-      </p>
+      {/* --- FOOTER : INFO SYSTÈME --- */}
+      <div className="flex items-center justify-center gap-2 opacity-30">
+        <FiActivity className="text-[10px]" />
+        <p className="text-[8px] font-black uppercase tracking-[0.3em]">
+          Data Integrity Verified — A.R.C. Protocol
+        </p>
+      </div>
     </div>
   );
 }

@@ -21,10 +21,10 @@ export default function ExistingsWorkout({
         <div className="space-y-1">
           <div className="flex gap-3 items-center">
             <div
-            className={`text-3xl p-1 rounded-2xl ${sport.color} bg-opacity-20 flex items-center justify-center shadow-inner size-14`}
-          >
-            {sport.icon}
-          </div>
+              className={`text-3xl p-1 rounded-2xl ${sport.color} bg-opacity-20 flex items-center justify-center shadow-inner size-14`}
+            >
+              {sport.icon}
+            </div>
             <div>
               <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-primary/5 px-2 py-0.5 rounded-full">
                 {existingWorkout.tag}
@@ -36,7 +36,8 @@ export default function ExistingsWorkout({
               </h3>
               {existingWorkout.tag !== "Compétition" && (
                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-bold uppercase">
-                  <FiClock className="text-primary" /> {existingWorkout.duration}
+                  <FiClock className="text-primary" />{" "}
+                  {existingWorkout.duration}
                 </div>
               )}
             </div>
@@ -47,7 +48,7 @@ export default function ExistingsWorkout({
         <div className="flex gap-2">
           <button
             onClick={onEdit}
-            className="p-3 bg-secondary/50 rounded-xl hover:bg-primary hover:text-white transition-all active:scale-90"
+            className="p-3 bg-secondary/50 rounded-xl hover:bg-primary/80 hover:text-white transition-all active:scale-90"
             title="Modifier"
           >
             <FiEdit2 size={16} />
@@ -88,7 +89,7 @@ export default function ExistingsWorkout({
                 </h4>
               </div>
               {step.detail && (
-                <p className="text-[11px] text-muted-foreground mt-1 pl-3 border-l border-muted ml-0.5">
+                <p className="text-[11px] text-muted-foreground whitespace-pre-line mt-1 pl-3 border-l border-muted ml-0.5">
                   {step.detail}
                 </p>
               )}

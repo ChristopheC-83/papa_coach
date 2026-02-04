@@ -59,7 +59,7 @@ export default function StepList({ steps, updateStep, removeStep , moveStep, add
           </div>
           <textarea
             placeholder="Détails (ex: 3x10min à 90% VMA...)"
-            className="text-sm bg-transparent w-full resize-none outline-none text-muted-foreground"
+            className="text-sm bg-transparent w-full resize-none outline-none text-muted-foreground whitespace-pre-line"
             rows={4}
             value={step.detail}
             onChange={(e) => updateStep(index, "detail", e.target.value)}

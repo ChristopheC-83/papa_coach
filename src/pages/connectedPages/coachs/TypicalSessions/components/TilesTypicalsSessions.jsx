@@ -6,11 +6,9 @@ export default function TilesTypicalsSessions({
   template,
   handleDelete,
   onSelectTemplate,
-  onEditClick, 
+  onEditClick,
 }) {
-
   const sportInfo = SPORTS_CONFIG[template?.sport] || SPORTS_CONFIG.RUN;
-
 
   const handleMainClick = () => {
     if (onSelectTemplate) {

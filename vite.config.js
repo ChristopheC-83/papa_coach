@@ -27,10 +27,10 @@ export default defineConfig({
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "puzzles/*.png"],
       manifest: {
         name: "A.R.C.",
-        short_name: "Analyse et Relation de Coaching",
+        short_name: "A.R.C.",
         description: "Analyse et Relation de Coaching",
         theme_color: "#ffffff", // Le marron ambre de ton thème
-        background_color: "#17240e",
+        background_color: "#33343a",
         display: "standalone",
         orientation: "portrait", // On force le portrait au lancement
         start_url: "/",

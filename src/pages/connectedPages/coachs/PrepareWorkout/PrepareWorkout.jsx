@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { format, isSameDay } from "date-fns";
@@ -17,6 +18,7 @@ import AtCreateWorkout from "../WorkoutForm/components/AtCreateWorkout";
 import CalendarWorkout from "../../athletes/MyWorkout/components/CalendarWorkout/CalendarWorkout";
 import ValidatedZone from "../../athletes/MyWorkout/components/TrainingDay/components/ValidatedZone/ValidatedZone";
 import WeeklyView from "./components/WeeklyView";
+import CoachVerdict from "../../athletes/MyWorkout/components/TrainingDay/components/ValidatedZone/components/CoachVerdict";
 
 export default function PrepareWorkout({ overrideAthleteId }) {
   const { athleteId: paramId } = useParams();
@@ -31,6 +33,37 @@ export default function PrepareWorkout({ overrideAthleteId }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isCreating, setIsCreating] = useState(false);
   const [trainings, setTrainings] = useState([]);
+
+  // --- 1. ON DÉCLARE LA FONCTION ICI (Accessible partout) ---
+  const fetchWorkouts = async () => {
+    if (!athleteId || loading) return;
+    try {
+      const start = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth(),
+        1,
+      );
+      const end = new Date(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth() + 1,
+        0,
+      );
+
+      const data = await workoutService.getAthleteProgram(
+        athleteId,
+        start,
+        end,
+      );
+      setTrainings(data);
+    } catch (err) {
+      console.error("Erreur fetch workouts:", err);
+    }
+  };
+
+  // --- 2. LE HOOK APPELLE SIMPLEMENT LA FONCTION ---
+  useEffect(() => {
+    fetchWorkouts();
+  }, [athleteId, currentMonth, loading]);
 
   // --- 1. CHARGEMENT DE L'ATHLÈTE (Pour sortir du mode Loading) ---
   useEffect(() => {
@@ -77,36 +110,6 @@ export default function PrepareWorkout({ overrideAthleteId }) {
     }
     fetchWorkouts();
   }, [athleteId, currentMonth, loading]);
-
-  // --- 3. HANDLERS (CRUD) ---
-
-  // Sauvegarde (Création OU Modification)
-  async function handleSaveWorkout(formData, existingId) {
-    try {
-      let result;
-      if (existingId) {
-        // MODE UPDATE
-        result = await workoutService.updateWorkout(existingId, formData);
-        setTrainings(
-          trainings.map((t) => (t && t.id === existingId ? result : t)),
-        );
-      } else {
-        // MODE CREATE
-        result = await workoutService.createWorkout({
-          ...formData,
-          athlete_id: athleteId,
-          coach_id: user.id,
-        });
-        setTrainings([...trainings, result]);
-      }
-      setIsCreating(false);
-    } catch (error) {
-      alert("Erreur de sauvegarde");
-      console.error("Détails :", error.message);
-    }
-  }
-
-  // Dans ton composant PrepareWorkout.jsx
 
   async function handleReset(workoutId) {
     // 1. Demande de confirmation (Simple mais efficace)
@@ -161,6 +164,42 @@ export default function PrepareWorkout({ overrideAthleteId }) {
     );
   }
 
+  {
+    user.role === "coach" && (
+      <CoachVerdict
+        workout={existingWorkout}
+        // On passe la fonction de rafraîchissement ici 🚀
+        onUpdate={() => fetchWorkouts()}
+      />
+    );
+  }
+
+  // Sauvegarde (Création OU Modification)
+  async function handleSaveWorkout(formData, existingId) {
+    try {
+      let result;
+      if (existingId) {
+        // MODE UPDATE
+        result = await workoutService.updateWorkout(existingId, formData);
+        setTrainings(
+          trainings.map((t) => (t && t.id === existingId ? result : t)),
+        );
+      } else {
+        // MODE CREATE
+        result = await workoutService.createWorkout({
+          ...formData,
+          athlete_id: athleteId,
+          coach_id: user.id,
+        });
+        setTrainings([...trainings, result]);
+      }
+      setIsCreating(false);
+    } catch (error) {
+      alert("Erreur de sauvegarde");
+      console.error("Détails :", error.message);
+    }
+  }
+
   return (
     <div className="w-full max-w-md mx-auto mt-5 space-y-6 pb-24 px-2">
       {/* NAVIGATION */}
@@ -212,6 +251,7 @@ export default function PrepareWorkout({ overrideAthleteId }) {
               <ValidatedZone
                 activeActivity={existingWorkout}
                 feedback={existingWorkout.athlete_feedback}
+                onUpdate={fetchWorkouts}
               />
             )}
 

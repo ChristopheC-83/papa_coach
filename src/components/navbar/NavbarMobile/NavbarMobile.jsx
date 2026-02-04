@@ -35,7 +35,7 @@ export default function NavbarMobile({ user }) {
   }
 
   return (
-    <nav className="flex justify-around py-1.5">
+    <nav className="flex justify-around pt-2 pb-1.5">
       {links.map((link) => {
         const Icon = link.icon;
         return (
@@ -45,7 +45,7 @@ export default function NavbarMobile({ user }) {
             className="flex flex-col items-center w-[30%]"
           >
             <Icon className="size-6" />
-            <span className="text-center text-xs text-nowrap">
+            <span className="text-center text-sm text-nowrap">
               {link.label}
             </span>
           </NavLink>
@@ -57,11 +57,11 @@ export default function NavbarMobile({ user }) {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <button
-              className="flex flex-col items-center w-[18%] text-foreground"
+              className="flex flex-col items-center w-[30%] "
               onClick={() => setIsOpen(true)}
             >
-              <FiTool className="size-7" />
-              <span className="text-center text-sm">Outils</span>
+              <FiTool className="size-6" />
+              <span className="text-center text-sm text-nowrap">Outils</span>
             </button>
           </SheetTrigger>
           <SheetContent
@@ -85,12 +85,12 @@ export default function NavbarMobile({ user }) {
                 return (
                   <NavLink
                     key={index}
-                    className="flex flex-col items-center p-3 bg-muted rounded-xl w-2/5 text-md text-foreground gap-2 mb-5"
+                    className="flex flex-col items-center p-3 bg-muted rounded-xl w-2/5 text-md text-foreground gap-2 mb-5 text-center text-sm"
                     to={tool.path}
                     onClick={() => setIsOpen(false)}
                   >
                     <Icon className="size-7" />
-                    <span className=" font-bold">{tool.label}</span>
+                    <span className=" text-center text-sm">{tool.label}</span>
                   </NavLink>
                 );
               })}

@@ -1,29 +1,3 @@
-refacto
-
-Visiteurs
-
-accueil OK 
-connexion OK
-inscription OK
-
-##############################
-
-Athletes 
-
-programme OK
-monCoach OK
-profile OK
-
-
-
-############################## 
-
-Coaches
-
-toutes les pages existent ? OK
-profil, commun à Athletes  OK
-entrainement, non , car coach s'entraine seul  OK
-il peut se créer son entrinament.
-le coach est il son propre coach ?
-un athlete peut il modifier ou se créer son entrainement ?
-...
+Mettre RPE coté coach
+mettre les sauts de ligne de partout
+mettre en place calcul charge entrainement RPE x minutes coté coach 

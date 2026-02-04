@@ -5,12 +5,12 @@ export default function StepDetail({ step }) {
     <div
       className={`p-4 rounded-2xl flex items-center gap-4 transition-all ${
         step.highlight
-          ? "bg-primary/90 text-white shadow-md"
+          ? "bg-primary/80 text-white shadow-md"
           : "bg-secondary/40 border border-muted"
       }`}
     >
       <div
-        className={`w-2 h-2 rounded-full ${step.highlight ? "bg-white animate-pulse" : "bg-primary"}`}
+        className={`w-2 h-2 rounded-full ${step.highlight ? "bg-white animate-pulse" : "bg-primary/80"}`}
       />
       <div>
         <h4

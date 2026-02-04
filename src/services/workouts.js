@@ -70,7 +70,32 @@ export const workoutService = {
     if (error) throw error;
     return true;
   },
+
+  // 5. Validation par le coach (Le "Verdict")
+  async validateWorkout(workoutId, validationData) {
+    const { data, error } = await supabase
+      .from("workouts")
+      .update({
+        duration_actual: validationData.duration_actual,
+        coach_comment: validationData.coach_comment,
+        load_score: validationData.load_score,
+        // On peut imaginer un statut spécifique ou simplement
+        // considérer que la présence d'un load_score vaut validation
+        status: "validated",
+      })
+      .eq("id", workoutId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("❌ Erreur Supabase Validation Coach:", error.message);
+      throw error;
+    }
+    return data;
+  },
 };
+
+
 
 /**
  * Enregistre le débriefing d'un athlète
