@@ -1,4 +1,4 @@
-export default function WorkoutStep({ title, detail, highlight = false }) {
+export default function WorkoutStep({ title, detail, highlight = false}) {
   return (
     <div
       className={`p-4 rounded-2xl flex items-center gap-4 ${highlight ? "bg-primary/5 border border-primary/20" : "bg-secondary/30"}`}

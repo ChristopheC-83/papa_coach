@@ -1,3 +1,2 @@
-Mettre RPE coté coach
-mettre les sauts de ligne de partout
-mettre en place calcul charge entrainement RPE x minutes coté coach 
+ajouter des infos calendar au coach
+et à l'athlete

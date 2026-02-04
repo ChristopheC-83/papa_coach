@@ -135,7 +135,6 @@ export default function PrepareWorkout({ overrideAthleteId }) {
       alert("Erreur technique lors de la réinitialisation.");
     }
   }
-
   // Suppression
   async function handleDeleteWorkout(id) {
     try {
@@ -146,7 +145,6 @@ export default function PrepareWorkout({ overrideAthleteId }) {
       console.error("Détails :", error.message);
     }
   }
-
   // --- 4. LOGIQUE DE VUE ---
   const existingWorkout = trainings?.find(
     (t) => t && t.date && isSameDay(new Date(t.date), selectedDate),

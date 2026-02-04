@@ -75,7 +75,9 @@ export default function ExistingsWorkout({
               className={`group p-3 rounded-2xl border transition-all ${
                 step.highlight
                   ? "bg-primary/5 border-primary/20 shadow-sm"
-                  : "bg-secondary/20 border-transparent"
+                : step.psycho ? "bg-orange-500/5 border-orange-500/20 shadow-sm"
+                :
+                "bg-secondary/20 border-transparent"
               }`}
             >
               <div className="flex items-center gap-2">

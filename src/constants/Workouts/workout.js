@@ -4,7 +4,7 @@ export const WORKOUT_TAGS = [
   "Intensité",
   "Explosivité",
   "Technique",
-  "Fun",  
+  "Fun",
   "Récupération",
   "Compétition",
 ];
@@ -14,3 +14,9 @@ export const LIBRARY_FILTERS = [
   "Tous",
   ...WORKOUT_TAGS.filter((tag) => tag !== "Compétition"),
 ];
+
+export function isPsychoWorkout(workout) {
+  if (!workout) return false;
+  const title = workout.title?.toLowerCase() || "";
+  return workout.psycho || title.includes("psy") || title.includes("psycho");
+}

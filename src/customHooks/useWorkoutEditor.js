@@ -8,14 +8,14 @@ export function useWorkoutEditor(initialData, initialDate) {
     duration: initialData?.duration || "",
     date: initialData?.date || initialDate,
     steps: initialData?.steps || [
-      { title: "Échauffement", detail: "", highlight: false },
+      { title: "Échauffement", detail: "", highlight: false, psycho:false },
     ],
   });
 
   const addStep = () => {
     setWorkout((prev) => ({
       ...prev,
-      steps: [...prev.steps, { title: "", detail: "", highlight: false }],
+      steps: [...prev.steps, { title: "", detail: "", highlight: false, psycho:false }],
     }));
   };
 
