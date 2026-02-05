@@ -51,22 +51,22 @@ export default function StepList({
         return (
           <div
             key={index}
-            className={`p-4 rounded-2xl border ${borderClass} transition-all duration-300`}
+            className={`p-4 rounded-2xl border ${borderClass} transition-all duration-300 h-auto `}
           >
             <div className="flex justify-between items-center mb-2">
               <input
                 placeholder="Titre du bloc..."
-                className={`font-bold bg-transparent outline-none w-full ${isPsycho ? "text-orange-500" : ""}`}
+                className={`font-bold bg-transparent outline-none w-full h-auto ${isPsycho ? "text-orange-500" : ""}`}
                 value={step.title}
                 onChange={(e) => updateStep(index, "title", e.target.value)}
               />
 
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 md:gap-4 items-center">
                 {/* BOUTON PSYCHO (Cerveau/Activity) */}
                 <button
                   type="button"
                   onClick={() => togglePsycho(index, step.psycho)}
-                  className="p-2 rounded-lg transition-all"
+                  className="rounded-lg transition-all  cursor-pointer"
                 >
                   <LiaBrainSolid
                     size={22}
@@ -79,7 +79,7 @@ export default function StepList({
                 {/* BOUTON STAR */}
                 <button
                   onClick={() => toggleHighlight(index, step.highlight)}
-                  className={`p-2 rounded-lg transition-colors ${step.highlight ? "text-primary bg-primary/10" : "text-muted-foreground hover:bg-zinc-800"}`}
+                  className={` rounded-lg transition-colors ${step.highlight ? "text-primary bg-primary/10" : "text-muted-foreground hover:bg-zinc-800"} cursor-pointer`}
                   title="Highlight"
                 >
                   <FiStar
@@ -88,26 +88,24 @@ export default function StepList({
                   />
                 </button>
 
-                <div className="flex gap-1 border-l border-muted pl-2 ml-1">
-                  <button
-                    onClick={() => moveStep(index, "up")}
-                    disabled={index === 0}
-                    className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
-                  >
-                    <FiArrowUp size={16} />
-                  </button>
-                  <button
-                    onClick={() => moveStep(index, "down")}
-                    disabled={index === steps.length - 1}
-                    className="p-2 text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
-                  >
-                    <FiArrowDown size={16} />
-                  </button>
-                </div>
+                <button
+                  onClick={() => moveStep(index, "up")}
+                  disabled={index === 0}
+                  className="text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                >
+                  <FiArrowUp size={16} />
+                </button>
+                <button
+                  onClick={() => moveStep(index, "down")}
+                  disabled={index === steps.length - 1}
+                  className="text-muted-foreground hover:text-primary disabled:opacity-20 cursor-pointer"
+                >
+                  <FiArrowDown size={16} />
+                </button>
 
                 <button
                   onClick={() => removeStep(index)}
-                  className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                  className=" text-destructive hover:bg-destructive/10 rounded-lg transition-colors  cursor-pointer"
                 >
                   <FiTrash2 size={18} />
                 </button>
@@ -116,8 +114,8 @@ export default function StepList({
 
             <textarea
               placeholder="Détails (ex: Visualisation, focus respiration...)"
-              className={`text-sm bg-transparent w-full resize-none outline-none whitespace-pre-line ${isPsycho ? "text-orange-200/70" : "text-muted-foreground"}`}
-              rows={4}
+              className={`text-sm  h-auto bg-transparent w-full resize-none outline-none whitespace-pre-line ${isPsycho ? "text-orange-200/70" : "text-muted-foreground"}`}
+              rows={6}
               value={step.detail}
               onChange={(e) => updateStep(index, "detail", e.target.value)}
             />

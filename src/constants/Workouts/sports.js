@@ -23,6 +23,12 @@ export const SPORTS_CONFIG = {
     icon: "🚵",
     color: "bg-green-300",
   },
+  HOME_TRAINER: {
+    id: "HOME_TRAINER",
+    label: "HT",
+    icon: "🏠",
+    color: "bg-blue-300",
+  },
   SWIM: {
     id: "SWIM",
     label: "Natation",
@@ -33,6 +39,6 @@ export const SPORTS_CONFIG = {
     id: "STRENGTH",
     label: "Renforcement",
     icon: "🏋️",
-    color: "bg-purple-500",
+    color: "bg-purple-400",
   },
 };
